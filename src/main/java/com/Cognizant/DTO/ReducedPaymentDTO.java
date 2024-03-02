@@ -1,21 +1,26 @@
 package com.Cognizant.DTO;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+import jakarta.validation.constraints.Size;
+
+@Component
 public class ReducedPaymentDTO {
-	private int Loan_App_ID;
+	@Size(min = 6,max=6)
+	private String Loan_App_ID;
 	private int Month;
-	private int pOutStandingBeginOfMonth;
-	private int EMI;
-	private int Interest;
-	private int Principal_Repayment;
-	private int pOutStandingEndOfMonth;
-	private Date lastDateOfEmi;
+	private double pOutStandingBeginOfMonth;
+	private double EMI;
+	private double Interest;
+	private double Principal_Repayment;
+	private double pOutStandingEndOfMonth;
+	private LocalDate lastDateOfEmi;
 	
-	public int getLoan_App_ID() {
+	public String getLoan_App_ID() {
 		return Loan_App_ID;
 	}
-	public void setLoan_App_ID(int loan_App_ID) {
+	public void setLoan_App_ID(String loan_App_ID) {
 		Loan_App_ID = loan_App_ID;
 	}
 	public int getMonth() {
@@ -24,40 +29,42 @@ public class ReducedPaymentDTO {
 	public void setMonth(int month) {
 		Month = month;
 	}
-	public int getpOutStandingBeginOfMonth() {
+	public double getpOutStandingBeginOfMonth() {
 		return pOutStandingBeginOfMonth;
 	}
-	public void setpOutStandingBeginOfMonth(int pOutStandingBeginOfMonth) {
+	public void setpOutStandingBeginOfMonth(double pOutStandingBeginOfMonth) {
 		this.pOutStandingBeginOfMonth = pOutStandingBeginOfMonth;
 	}
-	public int getEMI() {
+	public double getEMI() {
 		return EMI;
 	}
-	public void setEMI(int eMI) {
-		EMI = eMI;
+	public void setEMI(double emi2) {
+		EMI = emi2;
 	}
-	public int getInterest() {
+	public double getInterest() {
 		return Interest;
 	}
-	public void setInterest(int interest) {
+	public void setInterest(double interest) {
 		Interest = interest;
 	}
-	public int getPrincipal_Repayment() {
+	public double getPrincipal_Repayment() {
 		return Principal_Repayment;
 	}
-	public void setPrincipal_Repayment(int principal_Repayment) {
+	public void setPrincipal_Repayment(double principal_Repayment) {
 		Principal_Repayment = principal_Repayment;
 	}
-	public int getpOutStandingEndOfMonth() {
+	public double getpOutStandingEndOfMonth() {
 		return pOutStandingEndOfMonth;
 	}
-	public void setpOutStandingEndOfMonth(int pOutStandingEndOfMonth) {
+	public void setpOutStandingEndOfMonth(double pOutStandingEndOfMonth) {
 		this.pOutStandingEndOfMonth = pOutStandingEndOfMonth;
 	}
-	public Date getLastDateOfEmi() {
+	public LocalDate getLastDateOfEmi() {
 		return lastDateOfEmi;
 	}
-	public void setLastDateOfEmi(Date lastDateOfEmi) {
+	public void setLastDateOfEmi(LocalDate lastDateOfEmi) {
 		this.lastDateOfEmi = lastDateOfEmi;
+	}
+	public ReducedPaymentDTO() {
 	}
 }

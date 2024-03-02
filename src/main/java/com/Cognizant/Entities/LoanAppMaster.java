@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -17,14 +19,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
+@Data
+@Builder
 @Table(name = "LoanAppMaster")
 public class LoanAppMaster {
 	
 	@Id
 	@Column(name="Loan_App_Id")
-	private int loanAppId;
+	private String loanAppId;
 	
-	@Column(name="Interest_Rate")
+	@Column(name="Interest_Rate",unique=true)
 	private float interestRate;
 
 	@Column(name="Application_Date")
@@ -33,11 +37,11 @@ public class LoanAppMaster {
 	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId")
 	private List<LoanAppDetailMaster> LoanAppDetails = new ArrayList<LoanAppDetailMaster>();
 	
-	public int getLoanAppId() {
+	public String getLoanAppId() {
 		return loanAppId;
 	}
 
-	public void setLoanAppId(int loanAppId) {
+	public void setLoanAppId(String loanAppId) {
 		this.loanAppId = loanAppId;
 	}
 

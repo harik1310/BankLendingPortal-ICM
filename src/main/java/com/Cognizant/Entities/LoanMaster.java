@@ -1,6 +1,8 @@
 package com.Cognizant.Entities;
 
-import java.util.Date;
+
+
+import java.time.LocalDate;
 
 import com.Cognizant.Utilities.TypeOfLoan;
 
@@ -12,40 +14,45 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-//@Data
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table( name = "LoanMaster", indexes =
-		{@Index(name = "LoanMaster_index", columnList = "loanId, Type_Of_Loan, Date_Of_Creation")}
-)
+@Table( name = "LoanMaster",
+	indexes =
+		{@Index(name = "LoanMaster_index",
+		columnList = "loanId, Type_Of_Loan, Date_Of_Creation")}
+		)
 public class LoanMaster {
 	
 	@Id
 	@Column(name="loanId")
-	private int loanId;
+	private String loanId;
 
 	@Column(name="Type_Of_Loan")
 	@Enumerated(EnumType.STRING)
 	private TypeOfLoan typeOfLoan;
 	
-	@Column(name="Interest_Rate")
+	@Column(name="Interest_Rate",unique=true)
 	private float interestRate;
 	
 	@Column(name="Date_Of_Creation")
-	private Date dateOfCreation;
+	private LocalDate dateOfCreation;
 		
-		public int getLoanId() {
+	//getters and setters
+	public String getLoanId() {
 		return loanId;
 	}
 
-	public void setLoanId(int loanId) {
-		this.loanId = loanId;
+	public void setLoanId(String i) {
+		this.loanId = i;
 	}
 
 	public TypeOfLoan getTypeOfLoan() {
@@ -64,22 +71,15 @@ public class LoanMaster {
 		this.interestRate = interestRate;
 	}
 
-	public Date getDateOfCreation() {
+	public LocalDate getDateOfCreation() {
 		return dateOfCreation;
 	}
 
-	public void setDateOfCreation(Date dateOfCreation) {
+	public void setDateOfCreation(LocalDate dateOfCreation) {
 		this.dateOfCreation = dateOfCreation;
 	}
 	
-	public LoanMaster(int loanId, TypeOfLoan typeOfLoan, float interestRate, Date dateOfCreation) {
-		super();
-		this.loanId = loanId;
-		this.typeOfLoan = typeOfLoan;
-		this.interestRate = interestRate;
-		this.dateOfCreation = dateOfCreation;
-	}
-
+	//Constructor
 	public LoanMaster() {}
 		
 }

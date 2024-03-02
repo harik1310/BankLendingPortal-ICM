@@ -1,22 +1,22 @@
 package com.Cognizant.DTO;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.Cognizant.Utilities.TypeOfLoan;
 
 import lombok.Data;
 
 public class LoanDTO {
-	private int loanId;
+	private String loanId;
 	private TypeOfLoan typeOfLoan;
 	private float interestRate;
-	private Date dateOfCreation;
+	private LocalDate dateOfCreation;
 	
-	public int getLoanId() {
+	public String getLoanId() {
 		return loanId;
 	}
-	public void setLoanId(int loanId) {
-		this.loanId = loanId;
+	public void setLoanId(String string) {
+		this.loanId = string;
 	}
 	public TypeOfLoan getTypeOfLoan() {
 		return typeOfLoan;
@@ -30,10 +30,10 @@ public class LoanDTO {
 	public void setInterestRate(float interestRate) {
 		this.interestRate = interestRate;
 	}
-	public Date getDateOfCreation() {
+	public LocalDate getDateOfCreation() {
 		return dateOfCreation;
 	}
-	public void setDateOfCreation(Date dateOfCreation) {
+	public void setDateOfCreation(LocalDate dateOfCreation) {
 		this.dateOfCreation = dateOfCreation;
 	}
 }

@@ -1,6 +1,7 @@
 package com.Cognizant.Entities;
 
-import java.util.Date;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,11 +10,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -21,23 +24,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "loanAppDetailMaster")
 public class LoanAppDetailMaster {
 	
-	public LoanAppDetailMaster(int id, LoanAppMaster loanAppId, int monthNo, int installment, float interestRate,
-			int pOutStandingBeginOfMon, int pRepayment, int prOutStandingEndOfMon, Date lastDateofinstallPay) {
-		super();
-		this.id = id;
-		this.loanAppId = loanAppId;
-		this.monthNo = monthNo;
-		this.installment = installment;
-		this.interestRate = interestRate;
-		this.pOutStandingBeginOfMon = pOutStandingBeginOfMon;
-		this.pRepayment = pRepayment;
-		this.prOutStandingEndOfMon = prOutStandingEndOfMon;
-		this.lastDateofinstallPay = lastDateofinstallPay;
-	}
-
 	@Id
 	@Column(name="Id")
-	private int id;
+	private String id;
 	
 	@ManyToOne
 	@JoinColumn(name = "LoanAppMaster_Loan_App_Id")
@@ -62,6 +51,9 @@ public class LoanAppDetailMaster {
 	private int prOutStandingEndOfMon;
 	
 	@Column(name="Last_Date_Of_Install_Pay")
-	private Date lastDateofinstallPay;
-		
+	private LocalDate lastDateofinstallPay;
+
+	public LoanAppDetailMaster() {}
+	
+	
 }

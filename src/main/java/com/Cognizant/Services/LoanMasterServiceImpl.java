@@ -19,11 +19,6 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 	@Override
 	public String persistNewLoan(LoanDTO loan) {
 		LoanMaster newLoan = LoanDTOMapper.mapToLoanMaster(loan);
-//		new LoanMaster();
-//		newLoan.setLoanId(loan.getLoanId());
-//		newLoan.setTypeOfLoan(loan.getTypeOfLoan());
-//		newLoan.setInterestRate(loan.getInterestRate());
-//		newLoan.setDateOfCreation(loan.getDateOfCreation());		
 		LoanMaster verify = loanMasterRepository.save(newLoan);
 		if(verify != null) {
 			return "Success";
@@ -37,11 +32,6 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 		List<LoanDTO> loanReturnList = new ArrayList<LoanDTO>();
 		for(LoanMaster loan : allLoansfromDb) {
 			LoanDTO newLoan= LoanDTOMapper.mapToLoanDTO(loan);
-//					new LoanDTO();
-//			newLoan.setLoanId(loan.getLoanId());
-//			newLoan.setTypeOfLoan(loan.getTypeOfLoan());
-//			newLoan.setInterestRate(loan.getInterestRate());
-//			newLoan.setDateOfCreation(loan.getDateOfCreation());
 			loanReturnList.add(newLoan);
 		}
 		return loanReturnList;
@@ -77,11 +67,6 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 		if(optionalLoan.isPresent()) {
 			LoanMaster loan = optionalLoan.get();
 		newLoan= LoanDTOMapper.mapToLoanDTO(loan);
-//				new LoanDTO();
-//		newLoan.setLoanId(loan.getLoanId());
-//		newLoan.setTypeOfLoan(loan.getTypeOfLoan());
-//		newLoan.setInterestRate(loan.getInterestRate());
-//		newLoan.setDateOfCreation(loan.getDateOfCreation());
 		}
 		return newLoan;
 	}
