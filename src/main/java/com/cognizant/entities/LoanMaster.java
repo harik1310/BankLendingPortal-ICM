@@ -1,10 +1,10 @@
-package com.Cognizant.Entities;
+package com.cognizant.entities;
 
 
 
 import java.time.LocalDate;
 
-import com.Cognizant.Utilities.TypeOfLoan;
+import com.cognizant.utilities.TypeOfLoan;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,11 +1,11 @@
-package com.Cognizant.Utilities;
+package com.cognizant.utilities;
 
 
 public enum TypeOfLoan {
-	Personal_Loans("Personal loans"),
-	Auto_Loans("Auto loans"),
-	Business_Loans("Business loans"),
-	Home_Loans("Home loans");
+	PERSONAL_LOANS("Personal loans"),
+	AUTO_LOANS("Auto loans"),
+	BUSINESS_LOANS("Business loans"),
+	HOME_LOANS("Home loans");
 	
 	private final String loan;
     

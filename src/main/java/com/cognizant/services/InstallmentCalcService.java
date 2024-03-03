@@ -1,9 +1,9 @@
-package com.Cognizant.Services;
+package com.cognizant.services;
 
 import java.util.List;
 
-import com.Cognizant.DTO.LoanCalcDTO;
-import com.Cognizant.DTO.ReducedPaymentDTO;
+import com.cognizant.dto.LoanCalcDTO;
+import com.cognizant.dto.ReducedPaymentDTO;
 
 public interface InstallmentCalcService {
 		LoanCalcDTO insallmentCalc(LoanCalcDTO loan);

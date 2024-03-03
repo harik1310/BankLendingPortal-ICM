@@ -1,4 +1,4 @@
-package com.Cognizant.Repository;
+package com.Cognizant.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 

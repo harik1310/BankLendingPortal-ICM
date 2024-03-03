@@ -1,4 +1,4 @@
-package com.Cognizant.Entities;
+package com.cognizant.entities;
 
 
 import java.time.LocalDate;

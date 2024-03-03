@@ -1,4 +1,4 @@
-package com.Cognizant.Services;
+package com.cognizant.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.Cognizant.DTO.LoanDTO;
-import com.Cognizant.Entities.LoanMaster;
-import com.Cognizant.Mapper.LoanDTOMapper;
-import com.Cognizant.Repository.LoanMasterRepository;
+import com.cognizant.dto.LoanDTO;
+import com.cognizant.entities.LoanMaster;
+import com.cognizant.repository.LoanMasterRepository;
+import com.cognizant.utilities.mapper.LoanDTOMapper;
 
 public class LoanMasterServiceImpl implements LoanMasterService {
 

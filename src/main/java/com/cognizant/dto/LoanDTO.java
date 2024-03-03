@@ -1,8 +1,8 @@
-package com.Cognizant.DTO;
+package com.cognizant.dto;
 
 import java.time.LocalDate;
 
-import com.Cognizant.Utilities.TypeOfLoan;
+import com.cognizant.utilities.TypeOfLoan;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.Cognizant.Entities;
+package com.cognizant.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 // @NoArgsConstructor
@@ -35,7 +34,7 @@ public class LoanAppMaster {
 	private Date applicationDate; 
 	
 	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId")
-	private List<LoanAppDetailMaster> LoanAppDetails = new ArrayList<LoanAppDetailMaster>();
+	private List<LoanAppDetailMaster> loanAppDetails = new ArrayList<>();
 	
 	public String getLoanAppId() {
 		return loanAppId;
@@ -66,11 +65,11 @@ public class LoanAppMaster {
 	}
 
 	public List<LoanAppDetailMaster> getLoanAppDetails() {
-		return LoanAppDetails;
+		return loanAppDetails;
 	}
 
 	public void setLoanAppDetails(List<LoanAppDetailMaster> loanAppDetails) {
-		LoanAppDetails = loanAppDetails;
+		loanAppDetails = loanAppDetails;
 	}
 	
 }

@@ -1,11 +1,11 @@
-package com.Cognizant.Services;
+package com.cognizant.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.Cognizant.DTO.LoanCalcDTO;
-import com.Cognizant.DTO.ReducedPaymentDTO;
+import com.cognizant.dto.LoanCalcDTO;
+import com.cognizant.dto.ReducedPaymentDTO;
 
 public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
@@ -19,7 +19,7 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 		// where emi = P x R x (1+R)^N / [(1+R)^N-1]
 		double emi = principalAmt * interest * Math.pow((1+ interest), loanTenure) / (Math.pow((1+ interest), loanTenure)-1);
 		double totalAmount = emi * loanTenure ;
-		loan.setEMI(emi);
+		loan.setEmi(emi);
 		loan.setTotalAmountPayable(totalAmount);
 		return loan;
 	}		

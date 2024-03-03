@@ -1,8 +1,8 @@
-package com.Cognizant.Services;
+package com.cognizant.services;
 
 import java.util.List;
 
-import com.Cognizant.DTO.LoanDTO;
+import com.cognizant.dto.LoanDTO;
 
 public interface LoanMasterService {
 	

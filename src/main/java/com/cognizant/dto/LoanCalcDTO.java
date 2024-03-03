@@ -1,10 +1,9 @@
-package com.Cognizant.DTO;
+package com.cognizant.dto;
 
 import java.time.LocalDate;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +13,7 @@ public class LoanCalcDTO {
 	private int pAmount;
 	private int loanTenureMonths;
 	private double monthlyinterestRate;
-	private double EMI;
+	private double emi;
 	private double totalAmountPayable;
 	private LocalDate dueDate;
 
@@ -59,12 +58,12 @@ public class LoanCalcDTO {
 		this.monthlyinterestRate = monthlyinterestRate;
 	}
 
-	public double getEMI() {
-		return EMI;
+	public double getEmi() {
+		return emi;
 	}
 
-	public void setEMI(double eMI) {
-		EMI = eMI;
+	public void setEmi(double eMI) {
+		emi = eMI;
 	}
 
 	public double getTotalAmountPayable() {
@@ -76,5 +75,5 @@ public class LoanCalcDTO {
 	}
 	
 	//constructor
-	public LoanCalcDTO() {}
+	// public LoanCalcDTO() {}
 }

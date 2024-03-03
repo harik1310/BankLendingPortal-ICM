@@ -1,4 +1,4 @@
-package com.Cognizant.DTO;
+package com.cognizant.dto;
 
 import java.time.LocalDate;
 

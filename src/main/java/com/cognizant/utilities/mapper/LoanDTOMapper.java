@@ -1,7 +1,7 @@
-package com.cognizant.mapper;
+package com.cognizant.utilities.mapper;
 
-import com.cognizant.DTO.LoanDTO;
-import com.cognizant.Entities.LoanMaster;
+import com.cognizant.dto.LoanDTO;
+import com.cognizant.entities.LoanMaster;
 
 public class LoanDTOMapper {
 
