@@ -8,6 +8,6 @@ public interface LoanMasterService {
 	
 	String persistNewLoan(LoanDTO loan);
 	List<LoanDTO> getAllLoans();
-	String updateLoanDetails(int loanId, LoanDTO toUpdateDetails);
-	LoanDTO getLoanDetailsById(int loanId);	
+	String updateLoanDetails(String loanId, LoanDTO toUpdateDetails);
+	LoanDTO getLoanDetailsById(String loanId);	
 }

@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+// @NoArgsConstructor
 @EqualsAndHashCode
 @Table( name = "LoanMaster",
 	indexes =

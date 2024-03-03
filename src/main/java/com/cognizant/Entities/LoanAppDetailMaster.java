@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+// @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "loanAppDetailMaster")

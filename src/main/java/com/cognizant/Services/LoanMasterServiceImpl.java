@@ -12,7 +12,7 @@ import com.Cognizant.Mapper.LoanDTOMapper;
 import com.Cognizant.Repository.LoanMasterRepository;
 
 public class LoanMasterServiceImpl implements LoanMasterService {
-	
+
 	@Autowired
 	private LoanMasterRepository loanMasterRepository;
 
@@ -20,10 +20,9 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 	public String persistNewLoan(LoanDTO loan) {
 		LoanMaster newLoan = LoanDTOMapper.mapToLoanMaster(loan);
 		LoanMaster verify = loanMasterRepository.save(newLoan);
-		if(verify != null) {
-			return "Success";
-		}
-		return "Fail";
+		if(verify!=null)
+			return "success";
+		else { return "fail"; }
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 	}
 
 	@Override
-	public String updateLoanDetails(int loanId,LoanDTO toUpdateDetails) {
+	public String updateLoanDetails(String loanId,LoanDTO toUpdateDetails) {
 		Optional<LoanMaster> optionalLoan =loanMasterRepository.findById(loanId);
 		LoanMaster loanMaster=null;
 		if(optionalLoan.isPresent()) {
@@ -56,12 +55,11 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 		}
 		if(loanMaster!=null)
 			return "success";
-		else
-		return "fail";
+		else {return "fail";}
 		}
 
 	@Override
-	public LoanDTO getLoanDetailsById(int loanId) {
+	public LoanDTO getLoanDetailsById(String loanId) {
 		Optional<LoanMaster> optionalLoan =loanMasterRepository.findById(loanId);
 		LoanDTO newLoan=null;
 		if(optionalLoan.isPresent()) {

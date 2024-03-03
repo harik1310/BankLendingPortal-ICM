@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.Cognizant.Entities.LoanAppDetailMaster;
 
 @Repository
-public interface LoanAppDetailMasterRepository extends JpaRepository<LoanAppDetailMaster, Integer> {
+public interface LoanAppDetailMasterRepository extends JpaRepository<LoanAppDetailMaster, String> {
 
 }

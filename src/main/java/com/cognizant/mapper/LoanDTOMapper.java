@@ -1,9 +1,11 @@
-package com.Cognizant.Mapper;
+package com.cognizant.mapper;
 
-import com.Cognizant.DTO.LoanDTO;
-import com.Cognizant.Entities.LoanMaster;
+import com.cognizant.DTO.LoanDTO;
+import com.cognizant.Entities.LoanMaster;
 
 public class LoanDTOMapper {
+
+	private LoanDTOMapper(){}
 		public static LoanMaster mapToLoanMaster(LoanDTO loan) {
 			LoanMaster loanMaster = new LoanMaster();
 			loanMaster.setLoanId(loan.getLoanId());
