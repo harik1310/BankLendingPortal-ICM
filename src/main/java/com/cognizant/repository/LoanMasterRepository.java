@@ -10,7 +10,7 @@ import com.cognizant.entities.LoanMaster;
 
 @Repository
 public interface LoanMasterRepository extends JpaRepository<LoanMaster, String> {
-    @Query("select * from LoanMaster where loanId=?")
+    @Query("SELECT lm FROM LoanMaster lm WHERE lm.loanId = ?1")
     Optional<LoanMaster> findById(String loanId);
 		
 }

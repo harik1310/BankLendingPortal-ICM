@@ -53,6 +53,7 @@ public class LoanAppDetailMaster {
 	@Column(name="Last_Date_Of_Install_Pay")
 	private LocalDate lastDateofinstallPay;
 
+	//constructor
 	public LoanAppDetailMaster() {}
 	
 	

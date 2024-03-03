@@ -1,9 +1,9 @@
-package com.Cognizant.Repository;
+package com.cognizant.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Cognizant.Entities.LoanAppDetailMaster;
+import com.cognizant.entities.LoanAppDetailMaster;
 
 @Repository
 public interface LoanAppDetailMasterRepository extends JpaRepository<LoanAppDetailMaster, String> {
