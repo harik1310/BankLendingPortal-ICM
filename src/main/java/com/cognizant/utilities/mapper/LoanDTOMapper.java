@@ -4,9 +4,11 @@ import com.cognizant.dto.LoanDTO;
 import com.cognizant.entities.LoanMaster;
 
 public class LoanDTOMapper {
-
-	private LoanDTOMapper(){}
-		public static LoanMaster mapToLoanMaster(LoanDTO loan) {
+	
+	//constructor
+	private LoanDTOMapper() {}
+	
+		public static LoanMaster toLoanMaster(LoanDTO loan) {
 			LoanMaster loanMaster = new LoanMaster();
 			loanMaster.setLoanId(loan.getLoanId());
 			loanMaster.setTypeOfLoan(loan.getTypeOfLoan());
@@ -15,7 +17,7 @@ public class LoanDTOMapper {
 		return loanMaster;
 		}
 		
-		public static LoanDTO mapToLoanDTO(LoanMaster loan) {
+		public static LoanDTO toLoanDTO(LoanMaster loan) {
 			LoanDTO loanMaster = new LoanDTO();
 			loanMaster.setLoanId(loan.getLoanId());
 			loanMaster.setTypeOfLoan(loan.getTypeOfLoan());

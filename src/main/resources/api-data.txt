@@ -1,0 +1,10 @@
+
+
+//loanCalcDTO for api/loan/emiCalc
+
+{
+    "loanAppId" : "LA123",
+	 "loanTenureMonths" : 10,
+	 "monthlyinterestRate": 10.0,
+	 "pamount" : 50000
+}

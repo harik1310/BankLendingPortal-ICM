@@ -13,7 +13,7 @@ public enum TypeOfLoan {
         this.loan = loan;
     }
 	
-    public String getLoan() {
-        return loan;
-    }		
+//    public String getLoan() {
+//        return loan;
+//    }		
 }

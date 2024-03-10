@@ -2,10 +2,19 @@ package com.cognizant.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.cognizant.utilities.TypeOfLoan;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoanDTO {
 	private String loanId;
 	private TypeOfLoan typeOfLoan;

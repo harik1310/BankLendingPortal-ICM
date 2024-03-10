@@ -1,0 +1,17 @@
+--
+--insert into Loan_App_Master values ('AL2311', '2023-11-10', 9.74);
+--insert into Loan_App_Master values ('HL8228', '2023-07-29', 10.77);
+--insert into Loan_App_Master values ('AL2214', '2023-08-03', 9.68);
+--insert into Loan_App_Master values ('BL3711', '2023-09-06', 18.62);
+--insert into Loan_App_Master values ('AL9354', '2023-03-28', 17.75);
+--insert into Loan_App_Master values ('BL4453', '2023-11-23', 12.98);
+--insert into Loan_App_Master values ('HL4188', '2023-04-20', 15.77);
+--insert into Loan_App_Master values ('PL5084', '2023-05-03', 8.37);
+--insert into Loan_App_Master values ('HL0335', '2023-06-03', 16.7);
+--
+--
+--INSERT INTO Loan_Master (LoanId, Date_Of_Creation, Interest_Rate, Type_Of_Loan)
+--VALUES
+--    ('LM001', '2024-03-01', 5.5, 'PERSONAL_LOANS'),
+--    ('LM002', '2024-03-15', 6.0, 'AUTO_LOANS'),
+--    ('LM003', '2024-03-30', 7.5, 'BUSINESS_LOANS');

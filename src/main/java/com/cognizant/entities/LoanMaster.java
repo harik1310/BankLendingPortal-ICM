@@ -16,24 +16,25 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
-// @NoArgsConstructor
-@EqualsAndHashCode
-@Table( name = "LoanMaster",
+@NoArgsConstructor
+@Table( name = "Loan_Master",
 	indexes =
-		{@Index(name = "LoanMaster_index",
-		columnList = "loanId, Type_Of_Loan, Date_Of_Creation")}
+		{@Index(name = "Loan_Master_index",
+		columnList = "Loan_Id, Type_Of_Loan, Date_Of_Creation")}
 		)
 public class LoanMaster {
-	
+
 	@Id
-	@Column(name="loanId")
+	@Column(name="Loan_Id")
 	private String loanId;
 
 	@Column(name="Type_Of_Loan")
@@ -45,41 +46,5 @@ public class LoanMaster {
 	
 	@Column(name="Date_Of_Creation")
 	private LocalDate dateOfCreation;
-		
-	//getters and setters
-	public String getLoanId() {
-		return loanId;
-	}
-
-	public void setLoanId(String i) {
-		this.loanId = i;
-	}
-
-	public TypeOfLoan getTypeOfLoan() {
-		return typeOfLoan;
-	}
-
-	public void setTypeOfLoan(TypeOfLoan typeOfLoan) {
-		this.typeOfLoan = typeOfLoan;
-	}
-
-	public float getInterestRate() {
-		return interestRate;
-	}
-
-	public void setInterestRate(float interestRate) {
-		this.interestRate = interestRate;
-	}
-
-	public LocalDate getDateOfCreation() {
-		return dateOfCreation;
-	}
-
-	public void setDateOfCreation(LocalDate dateOfCreation) {
-		this.dateOfCreation = dateOfCreation;
-	}
-	
-	//Constructor
-	public LoanMaster() {}
 		
 }

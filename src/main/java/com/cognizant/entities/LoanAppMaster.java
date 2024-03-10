@@ -1,11 +1,16 @@
 package com.cognizant.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.cglib.core.Local;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -13,14 +18,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-// @NoArgsConstructor
-@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
 @Data
 @Builder
-@Table(name = "LoanAppMaster")
+@Table(name = "Loan_App_Master")
 public class LoanAppMaster {
 	
 	@Id
@@ -31,45 +36,9 @@ public class LoanAppMaster {
 	private float interestRate;
 
 	@Column(name="Application_Date")
-	private Date applicationDate; 
+	private LocalDate applicationDate; 
 	
-	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId")
+	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<LoanAppDetailMaster> loanAppDetails = new ArrayList<>();
-	
-	public String getLoanAppId() {
-		return loanAppId;
-	}
-
-	public void setLoanAppId(String loanAppId) {
-		this.loanAppId = loanAppId;
-	}
-
-	public float getInterestRate() {
-		return interestRate;
-	}
-
-	public void setInterestRate(float interestRate) {
-		this.interestRate = interestRate;
-	}
-
-	public Date getApplicationDate() {
-		return applicationDate;
-	}
-
-	public void setApplicationDate(Date applicationDate) {
-		this.applicationDate = applicationDate;
-	}
-
-	public LoanAppMaster() {
-		super();
-	}
-
-	public List<LoanAppDetailMaster> getLoanAppDetails() {
-		return loanAppDetails;
-	}
-
-	public void setLoanAppDetails(List<LoanAppDetailMaster> loanAppDetails) {
-		loanAppDetails = loanAppDetails;
-	}
 	
 }
