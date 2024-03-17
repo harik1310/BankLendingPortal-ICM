@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Component
 public class ReducedPaymentDTO {
 	@Size(min = 6,max=6)
 	private LoanAppMaster loanAppId;

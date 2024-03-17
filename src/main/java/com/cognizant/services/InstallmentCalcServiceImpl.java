@@ -14,6 +14,7 @@ import com.cognizant.entities.LoanAppDetailMaster;
 import com.cognizant.entities.LoanAppMaster;
 import com.cognizant.repository.LoanAppDetailMasterRepository;
 import com.cognizant.repository.LoanAppMasterRepository;
+import com.cognizant.repository.LoanMasterRepository;
 import com.cognizant.utilities.mapper.InstallmentMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
-	@Autowired
 	private LoanAppDetailMasterRepository installmentRepository;
 
-	@Autowired
 	private LoanAppMasterRepository loanApplicationRepository;
+
+	@Autowired
+	public InstallmentCalcServiceImpl(LoanAppDetailMasterRepository installmentRepository,
+			LoanAppMasterRepository loanApplicationRepository) {
+		this.installmentRepository = installmentRepository;
+		this.loanApplicationRepository = loanApplicationRepository;
+	}
 
 	@Override
 	public LoanCalcDTO insallmentCalc(LoanCalcDTO loan) {
+		log.info("Calculating installment {}");
 		double principalAmt = loan.getPAmount();
 		int loanTenure = loan.getLoanTenureMonths();
 
@@ -39,82 +46,76 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 		double emi = principalAmt * interest * Math.pow((1 + interest), loanTenure)
 				/ (Math.pow((1 + interest), loanTenure) - 1);
 		double totalAmount = emi * loanTenure;
-		loan.setEmi(emi);
+		loan.setEmi(Math.round(emi));
 		loan.setTotalAmountPayable(totalAmount);
 		return loan;
 	}
 
 	@Override
 	public List<ReducedPaymentDTO> reducedInsallmentCalc(LoanCalcDTO loan) {
-		log.info("reduced payment called");
-
+		log.info("getting emi breakup from loanAppDetailMaster table");
+		LoanAppMaster lm = new LoanAppMaster();
+		lm.setLoanAppId(loan.getLoanAppId());
+		log.info("{}");
 		List<LoanAppDetailMaster> loanApplist = installmentRepository.findAllByLoanAppId(loan.getLoanAppId());
+		log.info("loanAppList size was {}", loanApplist.size());
 		List<ReducedPaymentDTO> loanReport = new ArrayList<ReducedPaymentDTO>();
 		if (!loanApplist.isEmpty()) {
-			log.info("db has data");
+			log.info("db has data, mapping to dto");
+
 			for (LoanAppDetailMaster lad : loanApplist) {
 				ReducedPaymentDTO dto = InstallmentMapper.toDTO(lad);
 				loanReport.add(dto);
 			}
 			return loanReport;
 		} else {
-			
-			log.info("db is empty, calculating emi");
-			System.out.println(loan.getLoanAppId());
-			
-			LoanAppMaster lm = loanApplicationRepository.findById(loan.getLoanAppId()).get();
-			System.out.println(lm);
-			
-			
+
+			log.info("db was empty, calculating new emi breakup");
+
 			double loanAmount = loan.getPAmount();
-			System.out.println(loanAmount);
-			int loanTermMonths = loan.getLoanTenureMonths(); 
-			System.out.println(loanTermMonths);
-			double annualInterestRate = loan.getMonthlyinterestRate(); 
-			System.out.println(annualInterestRate);
-			String loanAppId = loan.getLoanAppId(); 
-			System.out.println(1);
-			LocalDate startDate = loan.getDueDate(); 
-			
+
+			int loanTermMonths = loan.getLoanTenureMonths();
+
+			double annualInterestRate = loan.getMonthlyinterestRate();
+
+			String loanAppId = loan.getLoanAppId();
+
+			LocalDate startDate = loan.getDueDate();
+
 			// Calculate monthly interest rate
-			double monthlyInterestRate = (annualInterestRate/100) / 12;
-			System.out.println(2);
-			
-			// Calculate EMI using [principal * interest * (1 + interest) ^ tenure]/[(1 +
-			// interest)^ tenure - 1]
+			double monthlyInterestRate = (annualInterestRate / 100) / 12;
+
+			// Calculate EMI using [principal * interest * (1 + interest) ^ tenure] / [ (1 +
+			// interest) ^ tenure - 1 ]
 			double emi = loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanTermMonths)
 					/ (Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1);
-			System.out.println(3);
 			emi = Math.round(emi);
-			
+
 			double remainingPrincipal = loanAmount;
 
-			int month = 1;
-			
-			while (loanTermMonths>0 ) {
-				System.out.println("inside while");
+			int month = 0;
+
+			while (loanTermMonths > 0) {
 				loanTermMonths--;
 				// Calculate interest component for the month
-				double interestComponent = Math.round( remainingPrincipal * monthlyInterestRate);
-			
+				double interestComponent = Math.round(remainingPrincipal * monthlyInterestRate);
+
 				// Calculate principal component for the month
 				double principalComponent = emi - interestComponent;
-			
+
 				// Update remaining principal
 				double principalAtBegin = remainingPrincipal;
-			
-				remainingPrincipal = Math.round( remainingPrincipal - principalComponent);
-			
-				LocalDate dueDateforCurrentMonth = (startDate.plusMonths(month++).withDayOfMonth(10));
-			
+
+				remainingPrincipal = Math.round(remainingPrincipal - principalComponent);
+
+				LocalDate dueDateforCurrentMonth = (startDate.plusMonths(++month).withDayOfMonth(10));
+
 				ReducedPaymentDTO temp = new ReducedPaymentDTO();
 
 				// Setting the values for the DTO and adding to the returning list
-				System.out.println("setting values");
 				temp.setLoanAppId(lm);
-				System.out.println("set id");
 				temp.setMonth(month);
-				
+
 				temp.setPOutStandingBeginOfMonth(principalAtBegin);
 				temp.setEMI(emi);
 				temp.setInterest(interestComponent);
@@ -123,19 +124,43 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				temp.setLastDateOfEmi(dueDateforCurrentMonth);
 
 				loanReport.add(temp);
-				System.out.println("temp "+temp);
-				System.out.println("setting mapper");
 				LoanAppDetailMaster ladm = InstallmentMapper.toEntity(temp);
 				loanApplist.add(ladm);
-				log.info("{}",ladm);
-				
 			}
-//			return loanReport;
-			log.info("loanAppId");
-			log.info("loan App id{}",loanApplist.get(0).getLoanAppId());
-			List<LoanAppDetailMaster> ladm = installmentRepository.saveAll(loanApplist);		
-//			System.out.println("ladm"+ladm);
+//			List<LoanAppDetailMaster> ladm = 
+			installmentRepository.saveAll(loanApplist);
+			log.info("calculate emi were persisted to db ");
 			return loanReport;
 		}
 	}
+
+	public List<ReducedPaymentDTO> getLoanDetailList(LoanCalcDTO loan) {
+		List<ReducedPaymentDTO> list = new ArrayList<>();
+		try {
+
+			if (loan.getMonthlyinterestRate() == 0) {
+				log.info("Interest was not provided, setting from the DB");
+				double interest = loanApplicationRepository.findInterestRate(loan.getLoanAppId());
+				loan.setMonthlyinterestRate(interest);
+			}
+
+			Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
+			log.info("loan Details was present {}", value.isPresent());
+			LoanAppMaster lm = value.get();
+
+			List<LoanAppDetailMaster> details = lm.getLoanAppDetails();
+			for (LoanAppDetailMaster ladm : details) {
+				ReducedPaymentDTO dto = InstallmentMapper.toDTO(ladm);
+				list.add(dto);
+			}
+			if (list.isEmpty()) {
+				log.info("emi detail list was null, calling reducedInsallmentCalc");
+				return reducedInsallmentCalc(loan);
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+		}
+		return list;
+	}
+
 }

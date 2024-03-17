@@ -9,11 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.cognizant.entities.LoanAppDetailMaster;
 
 @Repository
-public interface LoanAppDetailMasterRepository extends JpaRepository<LoanAppDetailMaster, String> {
+public interface LoanAppDetailMasterRepository extends JpaRepository<LoanAppDetailMaster, Integer> {
 	
 //	List<LoanAppDetailMaster> findAllById(String loanAppId);
 	
 	@Query("select lm from LoanAppDetailMaster lm where lm.loanAppId.loanAppId=?1 order by lm.monthNo")
 	List<LoanAppDetailMaster> findAllByLoanAppId(String loanAppId);
-
 }

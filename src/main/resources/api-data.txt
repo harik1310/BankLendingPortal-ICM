@@ -4,7 +4,10 @@
 
 {
     "loanAppId" : "LA123",
-	 "loanTenureMonths" : 10,
-	 "monthlyinterestRate": 10.0,
-	 "pamount" : 50000
+	 "loanTenureMonths" : 120,
+	 "monthlyinterestRate": 7.2,
+	 "pamount" : 1000000
 }
+
+
+//loanCalcDTO for api/loan/reducedPayment

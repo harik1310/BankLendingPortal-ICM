@@ -14,13 +14,13 @@ import com.cognizant.utilities.TypeOfLoan;
 @Repository
 public interface LoanMasterRepository extends JpaRepository<LoanMaster, String> {
 	
-	@Override
-	@Query("select lm from LoanMaster lm where lm.loanId = ?1 ")
+//	@Override
+//	@Query("select lm from LoanMaster lm where lm.loanId = ?1 ")
     Optional<LoanMaster> findById(String loanId);
 
     Optional<LoanMaster>  findByInterestRate(float interestRate);
     
-    @Query("select lm from LoanMaster lm where lm.typeOfLoan=?1 order by ?2 limit 1")
-    Optional<LoanMaster> findByTypeOfLoanAndDateOfCreation(TypeOfLoan type, LocalDate applyingDate);
+    @Query("select lm from LoanMaster lm where lm.typeOfLoan=?1 order by lm.dateOfCreation limit 1")
+    Optional<LoanMaster> findByTypeOfLoanAndDateOfCreation(TypeOfLoan type);
 		
 }

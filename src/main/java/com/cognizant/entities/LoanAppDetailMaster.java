@@ -3,6 +3,8 @@ package com.cognizant.entities;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,9 +20,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,8 +37,9 @@ public class LoanAppDetailMaster {
 	@Column(name="Id")
 	private int id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Loan_App_Master_Loan_App_Id")
+	@ManyToOne
+	@JsonIgnoreProperties(value = {"loanAppDetails", "handler","hibernateLazyInitializer"}, allowSetters = true)
+	@JoinColumn(referencedColumnName = "Loan_App_Id" ,name = "Loan_App_Id")
 	private LoanAppMaster loanAppId;
 	
 	@Column(name="Month_No")

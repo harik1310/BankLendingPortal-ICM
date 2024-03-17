@@ -1,10 +1,10 @@
  create table Loan_App_Master (
         Loan_App_Id varchar(255) not null  primary key,
         Application_Date date,
-        Interest_Rate float(24)
+        Interest_Rate float(24) unique
     );
 create table Loan_App_Detail_Master (
-        Id varchar(255) not null primary key,
+        Id integer not null primary key,
         Installment integer,
         Interest_Rate float(24),
         Last_Date_Of_Install_Pay date,
@@ -19,6 +19,6 @@ create table Loan_App_Detail_Master (
     create table Loan_Master (
         Loan_Id varchar(255) not null  primary key,
         Date_Of_Creation date,
-        Interest_Rate float(24),
+        Interest_Rate float(24) unique,
         Type_Of_Loan varchar(255) check (type_of_loan in ('PERSONAL_LOANS','AUTO_LOANS','BUSINESS_LOANS','HOME_LOANS'))
     );

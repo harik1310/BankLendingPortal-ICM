@@ -19,15 +19,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Data
+@ToString
 @Builder
 @Table(name = "Loan_App_Master")
 public class LoanAppMaster {
 	
+
 	@Id
 	@Column(name="Loan_App_Id")
 	private String loanAppId;
@@ -38,7 +41,8 @@ public class LoanAppMaster {
 	@Column(name="Application_Date")
 	private LocalDate applicationDate; 
 	
-	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId",
+			cascade = CascadeType.ALL, fetch = FetchType.EAGER )
 	private List<LoanAppDetailMaster> loanAppDetails = new ArrayList<>();
 	
 }

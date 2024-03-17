@@ -37,10 +37,19 @@ class LoanAppDetailMasterTest {
 	@BeforeEach
 	void setup() {
 		
+		loanAppMaster = LoanAppMaster.builder()
+				.applicationDate(LocalDate.of(2023, 10, 12))
+				.interestRate(12.0f)
+				.loanAppId("AL1234")
+				.loanAppDetails(list)
+				.build();
+		
+		entityManager.persist(loanAppMaster);
+		
 		
 		
 		 loanDetails = LoanAppDetailMaster.builder()
-												.id("BL1274")
+												.id(2)//"BL1274"
 												.loanAppId(loanAppMaster)
 												.monthNo(1)
 												.installment(48251)
@@ -49,7 +58,7 @@ class LoanAppDetailMasterTest {
 												.build();
 		
 		 loanDetails1 = LoanAppDetailMaster.builder()
-												.id("BL1234")
+												.id(3)//"BL1234"
 												.loanAppId(loanAppMaster)
 												.monthNo(1)
 												.installment(41612)
@@ -60,28 +69,28 @@ class LoanAppDetailMasterTest {
 		list.add(loanDetails1);
 		list.add(loanDetails);
 		
-		loanAppMaster = LoanAppMaster.builder()
-				.applicationDate(LocalDate.of(2023, 10, 12))
-				.interestRate(12.0f)
-				.loanAppId("AL1234")
-				.loanAppDetails(list)
-				.build();
-//		entityManager.persist(loanAppMaster);
+		
+		
 
 		
 		
+	}
+	@Test
+	void findAll_Test() {
+		entityManager.persist(loanAppMaster);
+		entityManager.persist(loanDetails);
+		entityManager.persist(loanDetails1);
+		List<LoanAppDetailMaster> list = loanAppDetailMasterRepository.findAll();
+		assertEquals(2, list.size());
 	}
 	
 	@Test
 	void saveLoanMaster(){
 		LoanAppDetailMaster loanDetails2 = LoanAppDetailMaster.builder()
-				.id("BL1204")
+				.id(1)//"BL1204"
 				.loanAppId(loanAppMaster)
-				.monthNo(1)
-				.installment(41556)
-				.interestRate(10.23f)
-				.pOutStandingBeginOfMon(4986776)
-				.pRepayment(6584).prOutStandingEndOfMon(4993416)
+				.monthNo(1).installment(41556).interestRate(10.23f)
+				.pOutStandingBeginOfMon(4986776).pRepayment(6584).prOutStandingEndOfMon(4993416)
 				.lastDateofinstallPay(LocalDate.of(2024, 6, 10))
 				.build();
 		list.add(loanDetails2);
@@ -91,14 +100,6 @@ class LoanAppDetailMasterTest {
 		assertNotNull(value);
 	}
 	
-	@Test
-	void findAll_Test() {
-		entityManager.persist(loanAppMaster);
-		entityManager.persist(loanDetails);
-		entityManager.persist(loanDetails1);
-		List<LoanAppDetailMaster> list = loanAppDetailMasterRepository.findAll();
-		assertEquals(2, list.size());
-	}
 
 
 

@@ -2,6 +2,7 @@ package com.cognizant.dto;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +15,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoanCalcDTO {
-	
+	@NotNull
 	private String loanAppId;
+	@NotNull
 	private double pAmount;
+	@NotNull
 	private int loanTenureMonths;
 	private double monthlyinterestRate;
 	private double emi;

@@ -89,13 +89,13 @@ class LoanMasterTest {
 	@Test
 	void findByInterestRate_Test() {
 		Optional<LoanMaster> value = loanMasterRepository.findByInterestRate(10.0f);
-		assertEquals(value, loanMaster);
+		assertEquals(value.get(), loanMaster);
 	}
 	
 	@Test
 	void findByInterestRate_when_Not_Present() {
 		Optional<LoanMaster> value = loanMasterRepository.findByInterestRate(11.0f);
-		assertNull(value);
+		assertTrue(value.isEmpty());
 	}
 	
 //	@Test
@@ -104,4 +104,5 @@ class LoanMasterTest {
 ////		assertNull(value);
 //		assertThatException(Exception).
 //		}
+	
 }

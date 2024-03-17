@@ -1,25 +1,27 @@
 package com.cognizant.utilities.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cognizant.dto.ReducedPaymentDTO;
 import com.cognizant.entities.LoanAppDetailMaster;
 import com.cognizant.entities.LoanAppMaster;
-import com.cognizant.repository.LoanAppMasterRepository;
 
 @Component
 public class InstallmentMapper {
-	@Autowired
-	private LoanAppMasterRepository repository;
-
 	
+	private InstallmentMapper() {}
+
 	public static ReducedPaymentDTO toDTO(LoanAppDetailMaster loanDetails) {
-		
-		
-		
+
 		ReducedPaymentDTO mapped = new ReducedPaymentDTO();
-		mapped.setLoanAppId(loanDetails.getLoanAppId());
+		LoanAppMaster l = new LoanAppMaster();
+		
+		l.setLoanAppId(loanDetails.getLoanAppId().getLoanAppId());
+		l.setInterestRate(loanDetails.getLoanAppId().getInterestRate());
+		l.setApplicationDate(loanDetails.getLoanAppId().getApplicationDate());
+		l.setLoanAppDetails(loanDetails.getLoanAppId().getLoanAppDetails());
+		
+		mapped.setLoanAppId(l);
 		mapped.setMonth(loanDetails.getMonthNo());
 		mapped.setEMI(loanDetails.getInstallment());
 		mapped.setInterest(loanDetails.getInterestRate());
@@ -29,11 +31,18 @@ public class InstallmentMapper {
 		mapped.setLastDateOfEmi(loanDetails.getLastDateofinstallPay());
 		return mapped;
 	}
-	
+
 	public static LoanAppDetailMaster toEntity(ReducedPaymentDTO loanDetails) {
 		LoanAppDetailMaster mapped = new LoanAppDetailMaster();
-//		mapped.setId(loanDetails.getLoanAppId());
-		mapped.setLoanAppId(loanDetails.getLoanAppId());
+
+		LoanAppMaster l = new LoanAppMaster();
+		
+		l.setLoanAppId(loanDetails.getLoanAppId().getLoanAppId());
+		l.setInterestRate(loanDetails.getLoanAppId().getInterestRate());
+		l.setApplicationDate(loanDetails.getLoanAppId().getApplicationDate());
+		l.setLoanAppDetails(loanDetails.getLoanAppId().getLoanAppDetails());	
+
+		mapped.setLoanAppId(l);
 		mapped.setMonthNo(loanDetails.getMonth());
 		mapped.setInstallment(loanDetails.getEMI());
 		mapped.setInterestRate(loanDetails.getInterest());
