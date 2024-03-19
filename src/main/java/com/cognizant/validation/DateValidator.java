@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cognizant.services.LoanMasterService;
 import com.cognizant.services.LoanMasterServiceImpl;
 
 import jakarta.validation.ConstraintValidator;

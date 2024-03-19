@@ -14,12 +14,8 @@ import com.cognizant.entities.LoanAppDetailMaster;
 import com.cognizant.entities.LoanAppMaster;
 import com.cognizant.repository.LoanAppDetailMasterRepository;
 import com.cognizant.repository.LoanAppMasterRepository;
-import com.cognizant.repository.LoanMasterRepository;
 import com.cognizant.utilities.mapper.InstallmentMapper;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
@@ -35,8 +31,7 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 	}
 
 	@Override
-	public LoanCalcDTO insallmentCalc(LoanCalcDTO loan) {
-		log.info("Calculating installment {}");
+	public LoanCalcDTO installmentCalc(LoanCalcDTO loan) {
 		double principalAmt = loan.getPAmount();
 		int loanTenure = loan.getLoanTenureMonths();
 
@@ -53,15 +48,13 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 	@Override
 	public List<ReducedPaymentDTO> reducedInsallmentCalc(LoanCalcDTO loan) {
-		log.info("getting emi breakup from loanAppDetailMaster table");
 		LoanAppMaster lm = new LoanAppMaster();
 		lm.setLoanAppId(loan.getLoanAppId());
-		log.info("{}");
+		
 		List<LoanAppDetailMaster> loanApplist = installmentRepository.findAllByLoanAppId(loan.getLoanAppId());
-		log.info("loanAppList size was {}", loanApplist.size());
-		List<ReducedPaymentDTO> loanReport = new ArrayList<ReducedPaymentDTO>();
+		
+		List<ReducedPaymentDTO> loanReport = new ArrayList<>();
 		if (!loanApplist.isEmpty()) {
-			log.info("db has data, mapping to dto");
 
 			for (LoanAppDetailMaster lad : loanApplist) {
 				ReducedPaymentDTO dto = InstallmentMapper.toDTO(lad);
@@ -70,15 +63,13 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 			return loanReport;
 		} else {
 
-			log.info("db was empty, calculating new emi breakup");
+			
 
 			double loanAmount = loan.getPAmount();
 
 			int loanTermMonths = loan.getLoanTenureMonths();
 
 			double annualInterestRate = loan.getMonthlyinterestRate();
-
-			String loanAppId = loan.getLoanAppId();
 
 			LocalDate startDate = loan.getDueDate();
 
@@ -117,9 +108,9 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				temp.setMonth(month);
 
 				temp.setPOutStandingBeginOfMonth(principalAtBegin);
-				temp.setEMI(emi);
+				temp.setEmi(emi);
 				temp.setInterest(interestComponent);
-				temp.setPrincipal_Repayment(principalComponent);
+				temp.setPrincipalRepayment(principalComponent);
 				temp.setPOutStandingEndOfMonth(remainingPrincipal);
 				temp.setLastDateOfEmi(dueDateforCurrentMonth);
 
@@ -127,26 +118,28 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				LoanAppDetailMaster ladm = InstallmentMapper.toEntity(temp);
 				loanApplist.add(ladm);
 			}
-//			List<LoanAppDetailMaster> ladm = 
 			installmentRepository.saveAll(loanApplist);
-			log.info("calculate emi were persisted to db ");
+		
 			return loanReport;
 		}
 	}
 
 	public List<ReducedPaymentDTO> getLoanDetailList(LoanCalcDTO loan) {
 		List<ReducedPaymentDTO> list = new ArrayList<>();
-		try {
 
 			if (loan.getMonthlyinterestRate() == 0) {
-				log.info("Interest was not provided, setting from the DB");
+
 				double interest = loanApplicationRepository.findInterestRate(loan.getLoanAppId());
 				loan.setMonthlyinterestRate(interest);
 			}
 
 			Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
-			log.info("loan Details was present {}", value.isPresent());
-			LoanAppMaster lm = value.get();
+			
+			LoanAppMaster lm=new LoanAppMaster();
+			if (value.isPresent()) {
+				
+				lm = value.get();
+			}
 
 			List<LoanAppDetailMaster> details = lm.getLoanAppDetails();
 			for (LoanAppDetailMaster ladm : details) {
@@ -154,12 +147,9 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				list.add(dto);
 			}
 			if (list.isEmpty()) {
-				log.info("emi detail list was null, calling reducedInsallmentCalc");
+				
 				return reducedInsallmentCalc(loan);
 			}
-		} catch (Exception e) {
-			log.info(e.getMessage());
-		}
 		return list;
 	}
 

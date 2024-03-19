@@ -23,7 +23,6 @@ import com.cognizant.entities.LoanAppDetailMaster;
 import com.cognizant.entities.LoanAppMaster;
 import com.cognizant.repository.LoanAppDetailMasterRepository;
 import com.cognizant.repository.LoanAppMasterRepository;
-import com.jayway.jsonpath.Option;
 
 @ExtendWith(MockitoExtension.class)
 class InstallmentCalcServiceTest {
@@ -68,10 +67,10 @@ class InstallmentCalcServiceTest {
 				.build();
 		
 		reducedDto = ReducedPaymentDTO.builder()
-					.loanAppId(lId).Month(1).EMI(47825)
-					.Interest(10.0f).lastDateOfEmi(LocalDate.of(2024, 03,17))
+					.loanAppId(lId).month(1).emi(47825)
+					.interest(10.0f).lastDateOfEmi(LocalDate.of(2024, 03,17))
 					.pOutStandingBeginOfMonth(5000000).pOutStandingEndOfMonth(4600000)
-					.Principal_Repayment(6423)
+					.principalRepayment(6423)
 					.build();
 		
 		loanAppMaster = LoanAppMaster.builder().loanAppId("HL1234").interestRate(10.0f)
@@ -82,7 +81,7 @@ class InstallmentCalcServiceTest {
 
 	@Test
 	void installmentCalc() {
-		assertNotNull(service.insallmentCalc(lac));
+		assertNotNull(service.installmentCalc(lac));
 	}
 	
 	@Test

@@ -1,6 +1,5 @@
 package com.cognizant.services;
 
-import java.lang.ProcessHandle.Info;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +16,7 @@ import com.cognizant.repository.LoanMasterRepository;
 import com.cognizant.utilities.TypeOfLoan;
 import com.cognizant.utilities.mapper.LoanDTOMapper;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class LoanMasterServiceImpl implements LoanMasterService {
 
 	private LoanMasterRepository loanMasterRepository;
@@ -32,15 +28,10 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 
 	@Override
 	public LoanDTO persistNewLoan(NewLoanDTO loan) {
-		log.info("{}", loan);
 		boolean loanTaken = checkIfInterestIsTaken(loan.getInterestRate());
 		if (loanTaken) {
-			log.info("the interest rate was taken");
 			float interest = getLatestInterestValue(loan.getTypeOfLoan());
 			loan.setInterestRate(interest + 0.01f);
-			log.info("inserting loan at {}", loan.getInterestRate());
-		}else {			
-			log.info("the interest rate was not taken, {}");
 		}
 		LoanMaster saved = loanMasterRepository.save(LoanDTOMapper.newLoanToLoanMaster(loan));
 		return LoanDTOMapper.toLoanDTO(saved);
@@ -87,8 +78,6 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 				updatedLoanDetails.setInterestRate(interest+0.1f);
 			}
 			dto = LoanDTOMapper.toLoanDTO(loanMasterRepository.save(updatedLoanDetails));
-		} else {
-			log.warn("record does not exist");
 		}
 		return dto;
 	}
@@ -105,7 +94,7 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 
 	public boolean isDateValid(LocalDate value) {
 		LocalDate today = LocalDate.now();
-		return ( value.equals(today) || value.isBefore(today));
+		return ( value.equals(today) || value.isAfter(today));
 	}
 
 	public boolean isInterestValid(float value) {

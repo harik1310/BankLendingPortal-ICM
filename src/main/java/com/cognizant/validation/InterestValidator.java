@@ -2,7 +2,6 @@ package com.cognizant.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cognizant.services.LoanMasterService;
 import com.cognizant.services.LoanMasterServiceImpl;
 
 import jakarta.validation.ConstraintValidator;

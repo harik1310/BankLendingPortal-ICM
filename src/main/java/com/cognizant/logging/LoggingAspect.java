@@ -1,7 +1,5 @@
 package com.cognizant.logging;
 
-
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -14,43 +12,55 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 @Aspect
 @Component
 public class LoggingAspect {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);	
+	public enum level {
+		INFO, DEBUG, ERROR
+	}
+	private static String placeHolder = "{} {}";
+	
+	private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+
 	@Before(" execution(* com.cognizant.*.*.*(..))")
 	public void beforeAdvice(JoinPoint point) {
-		logger.info("INFO:"+point.getSignature().getName());
+		logger.info(placeHolder, level.INFO, point.getSignature().getName());
 	}
+
 	@After(" execution(* com.cognizant.*.*.*(..))")
 	public void afterAdvice(JoinPoint point) {
-		logger.info("INFO:"+point.getSignature().getName());
+		logger.info(placeHolder, level.INFO, point.getSignature().getName());
 	}
-	@AfterReturning(pointcut="execution(* com.cognizant.*.*.*(..))",returning="result")
-	public void afterReturning(JoinPoint point,Object result) {
-		 logger.debug("DEBUG:"+point.getSignature().getName()+" Return Value:"+result);
+
+	@AfterReturning(pointcut = "execution(* com.cognizant.*.*.*(..))", returning = "result")
+	public void afterReturning(JoinPoint point, Object result) {
+		logger.debug(placeHolder, level.DEBUG, point.getSignature().getName());
 	}
-	@AfterThrowing(pointcut="execution(* com.cognizant.*.*.*(..))",throwing="error")
-	public void afterThrowing(JoinPoint point,Throwable error) {
-		logger.error("Error:"+point.getSignature().getName()+" threw exception :"+error);
+
+	@AfterThrowing(pointcut = "execution(* com.cognizant.*.*.*(..))", throwing = "error")
+	public void afterThrowing(JoinPoint point, Throwable error) {
+		logger.error(placeHolder, level.ERROR, point.getSignature().getName());
 	}
+
 	@Pointcut("execution(* com.cognizant.*.*.*(..))")
 	public void getPointCut() {
-		
+
 	}
+	
 	@Around("getPointCut()")
 	public Object aroundAdvice(ProceedingJoinPoint point) {
-		logger.info("INFO:"+point.getSignature().getName());
-		Object returnValue=null;
+		logger.info(placeHolder, level.INFO, point.getSignature().getName());
+		Object returnValue = null;
 		try {
-			returnValue=point.proceed();
+			returnValue = point.proceed();
 		} catch (Throwable e) {
-			logger.error("Error:"+e.getMessage());
+			logger.error(placeHolder, level.ERROR, e.getMessage());
 		}
-		logger.debug("DEBUG:"+returnValue);
+		logger.debug(placeHolder, level.DEBUG, returnValue);
 
 		return returnValue;
 	}
-	
+
 }

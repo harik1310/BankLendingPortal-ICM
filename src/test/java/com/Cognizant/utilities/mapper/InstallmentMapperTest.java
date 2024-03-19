@@ -32,9 +32,9 @@ class InstallmentMapperTest {
 		
 		dto = ReducedPaymentDTO.builder()
 								.loanAppId(loanAppMaster)
-								.Month(1)
-								.EMI(48251)
-								.Interest(10.23f).pOutStandingBeginOfMonth(5000000).Principal_Repayment(6584).pOutStandingEndOfMonth(4993416)
+								.month(1)
+								.emi(48251)
+								.interest(10.23f).pOutStandingBeginOfMonth(5000000).principalRepayment(6584).pOutStandingEndOfMonth(4993416)
 								.lastDateOfEmi(LocalDate.of(2024, 4, 10))
 								.build();
 		
@@ -60,12 +60,12 @@ class InstallmentMapperTest {
 	void toDTO_Test() {
 		ReducedPaymentDTO dto = InstallmentMapper.toDTO(entity);
 			assertEquals(dto.getLoanAppId(), entity.getLoanAppId());
-			assertEquals(dto.getEMI(), entity.getInstallment());
+			assertEquals(dto.getEmi(), entity.getInstallment());
 			assertEquals(dto.getInterest(), entity.getInterestRate());
 			assertEquals(dto.getMonth(), entity.getMonthNo());
 			assertEquals(dto.getPOutStandingBeginOfMonth(), entity.getPOutStandingBeginOfMon());
 			assertEquals(dto.getPOutStandingEndOfMonth(), entity.getPrOutStandingEndOfMon());
-			assertEquals(dto.getPrincipal_Repayment(), entity.getPRepayment());
+			assertEquals(dto.getPrincipalRepayment(), entity.getPRepayment());
 			assertEquals(dto.getLastDateOfEmi(), entity.getLastDateofinstallPay());
 	}
 	
@@ -73,12 +73,12 @@ class InstallmentMapperTest {
 	void todto_Test() {
 		LoanAppDetailMaster entity = InstallmentMapper.toEntity(dto);
 		assertEquals(dto.getLoanAppId(), entity.getLoanAppId());
-		assertEquals(dto.getEMI(), entity.getInstallment());
+		assertEquals(dto.getEmi(), entity.getInstallment());
 		assertEquals(dto.getInterest(), entity.getInterestRate());
 		assertEquals(dto.getMonth(), entity.getMonthNo());
 		assertEquals(dto.getPOutStandingBeginOfMonth(), entity.getPOutStandingBeginOfMon());
 		assertEquals(dto.getPOutStandingEndOfMonth(), entity.getPrOutStandingEndOfMon());
-		assertEquals(dto.getPrincipal_Repayment(), entity.getPRepayment());
+		assertEquals(dto.getPrincipalRepayment(), entity.getPRepayment());
 		assertEquals(dto.getLastDateOfEmi(), entity.getLastDateofinstallPay());
 	}
 

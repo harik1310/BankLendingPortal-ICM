@@ -2,8 +2,6 @@ package com.cognizant.dto;
 
 import java.time.LocalDate;
 
-import org.springframework.stereotype.Component;
-
 import com.cognizant.entities.LoanAppMaster;
 
 import jakarta.validation.constraints.Size;
@@ -19,11 +17,11 @@ import lombok.NoArgsConstructor;
 public class ReducedPaymentDTO {
 	@Size(min = 6,max=6)
 	private LoanAppMaster loanAppId;
-	private int Month;
-	private double EMI;
-	private double Interest;
+	private int month;
+	private double emi;
+	private double interest;
 	private double pOutStandingBeginOfMonth;
-	private double Principal_Repayment;
+	private double principalRepayment;
 	private double pOutStandingEndOfMonth;
 	private LocalDate lastDateOfEmi;
 }

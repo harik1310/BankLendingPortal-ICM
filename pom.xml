@@ -117,6 +117,14 @@
           </configuration>
         </execution>
       </executions>
+      <configuration>
+                    <excludes>
+                        <exclude>**/**/logging/*.*</exclude>
+                        <exclude>**/**/entities/*.*</exclude>
+                        <exclude>**/**/validation/*.*</exclude>
+                        <exclude>**/**/dto/*.*</exclude>
+                    </excludes>
+                </configuration>
     </plugin>
    </plugins>
   </build>

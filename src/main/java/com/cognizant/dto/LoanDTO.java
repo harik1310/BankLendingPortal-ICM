@@ -2,11 +2,7 @@ package com.cognizant.dto;
 
 import java.time.LocalDate;
 
-import org.springframework.stereotype.Component;
-
 import com.cognizant.utilities.TypeOfLoan;
-import com.cognizant.validation.ValidDate;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

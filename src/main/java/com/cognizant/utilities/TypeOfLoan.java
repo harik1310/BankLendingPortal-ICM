@@ -12,8 +12,5 @@ public enum TypeOfLoan {
 	TypeOfLoan(String loan) {
         this.loan = loan;
     }
-	
-//    public String getLoan() {
-//        return loan;
-//    }		
+			
 }

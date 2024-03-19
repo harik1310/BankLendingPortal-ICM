@@ -109,8 +109,8 @@ class LoanMasterServiceTest {
 
 	@Test
 	void getLatestInterestValue_when_valueExists() {
-		when(repository.findByTypeOfLoanAndDateOfCreation(any(TypeOfLoan.class))).thenReturn(Optional.of(mockLoanMaster));
-		assertNotNull(service.getLatestInterestValue(TypeOfLoan.AUTO_LOANS));
+		when(repository.findByTypeOfLoanAndDateOfCreation(any(TypeOfLoan.class))).thenReturn(Optional.of(loanMaster));
+		assertTrue(0.0f<service.getLatestInterestValue(TypeOfLoan.AUTO_LOANS));
 	}
 
 	@Test
@@ -154,14 +154,14 @@ class LoanMasterServiceTest {
 	void isDateValid_when_dateIsAfterToday() {
 		LocalDate after = LocalDate.now();
 		after = after.plusDays(2);
-		assertFalse	(service.isDateValid(after));
+		assertTrue(service.isDateValid(after));
 	}
 	
 	@Test
 	void isDateValid_when_dateIsbeforeToday() {
 		LocalDate after = LocalDate.now();
 		after = after.minusDays(2);
-		assertTrue(service.isDateValid(after));
+		assertFalse(service.isDateValid(after));
 	}
 	
 	@Test

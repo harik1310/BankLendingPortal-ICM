@@ -2,10 +2,7 @@ package com.cognizant.entities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import org.springframework.cglib.core.Local;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,15 +14,12 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Data
-@ToString
 @Builder
 @Table(name = "Loan_App_Master")
 public class LoanAppMaster {
