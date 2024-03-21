@@ -36,7 +36,7 @@ public class LoanAppMaster {
 	private LocalDate applicationDate; 
 	
 	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId",
-			cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+			cascade = CascadeType.MERGE, fetch = FetchType.EAGER )
 	private List<LoanAppDetailMaster> loanAppDetails = new ArrayList<>();
 	
 }

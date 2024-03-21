@@ -9,11 +9,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Aspect
+@Slf4j
 @Component
 public class LoggingAspect {
 
@@ -21,27 +22,25 @@ public class LoggingAspect {
 		INFO, DEBUG, ERROR
 	}
 	private static String placeHolder = "{} {}";
-	
-	private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
 	@Before(" execution(* com.cognizant.*.*.*(..))")
 	public void beforeAdvice(JoinPoint point) {
-		logger.info(placeHolder, level.INFO, point.getSignature().getName());
+		log.info(placeHolder, level.INFO, point.getSignature().getName());
 	}
 
 	@After(" execution(* com.cognizant.*.*.*(..))")
 	public void afterAdvice(JoinPoint point) {
-		logger.info(placeHolder, level.INFO, point.getSignature().getName());
+		log.info(placeHolder, level.INFO, point.getSignature().getName());
 	}
 
 	@AfterReturning(pointcut = "execution(* com.cognizant.*.*.*(..))", returning = "result")
 	public void afterReturning(JoinPoint point, Object result) {
-		logger.debug(placeHolder, level.DEBUG, point.getSignature().getName());
+		log.debug(placeHolder, level.DEBUG, point.getSignature().getName());
 	}
 
 	@AfterThrowing(pointcut = "execution(* com.cognizant.*.*.*(..))", throwing = "error")
 	public void afterThrowing(JoinPoint point, Throwable error) {
-		logger.error(placeHolder, level.ERROR, point.getSignature().getName());
+		log.error(placeHolder+" {}", level.ERROR, point.getSignature().getName(),error.getMessage());
 	}
 
 	@Pointcut("execution(* com.cognizant.*.*.*(..))")
@@ -51,14 +50,14 @@ public class LoggingAspect {
 	
 	@Around("getPointCut()")
 	public Object aroundAdvice(ProceedingJoinPoint point) {
-		logger.info(placeHolder, level.INFO, point.getSignature().getName());
+		log.info(placeHolder, level.INFO, point.getSignature().getName());
 		Object returnValue = null;
 		try {
 			returnValue = point.proceed();
 		} catch (Throwable e) {
-			logger.error(placeHolder, level.ERROR, e.getMessage());
+			log.error(placeHolder, level.ERROR, e.getMessage());
 		}
-		logger.debug(placeHolder, level.DEBUG, returnValue);
+		log.debug(placeHolder, level.DEBUG, returnValue);
 
 		return returnValue;
 	}

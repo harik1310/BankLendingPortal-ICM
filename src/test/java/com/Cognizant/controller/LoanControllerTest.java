@@ -107,7 +107,7 @@ class LoanControllerTest {
 		try {
 			ResponseEntity<?> responseEntity = controller.getAllLoans();
 			List<LoanDTO> actual = (List<LoanDTO>) responseEntity.getBody();
-			assertTrue(actual.size() == 0);
+			assertEquals(0,actual.size());
 			MvcResult rs = this.mockMvc.perform(get("/api/loan/")).andDo(print()).andExpect(status().is(204))
 					.andReturn();
 			assertEquals(204, rs.getResponse().getStatus());

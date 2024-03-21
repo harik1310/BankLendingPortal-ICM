@@ -3,6 +3,7 @@ package com.cognizant.dto;
 import java.time.LocalDate;
 
 import com.cognizant.entities.LoanAppMaster;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReducedPaymentDTO {
 	@Size(min = 6,max=6)
+	@JsonIgnore
 	private LoanAppMaster loanAppId;
 	private int month;
 	private double emi;

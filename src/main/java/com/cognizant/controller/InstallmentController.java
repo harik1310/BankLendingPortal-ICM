@@ -42,9 +42,9 @@ public class InstallmentController {
 	public ResponseEntity<List<ReducedPaymentDTO>> getLoanDetailList(@RequestBody LoanCalcDTO loan){
 		List<ReducedPaymentDTO> reducedEmi = service.getLoanDetailList(loan);
 		if(reducedEmi.isEmpty()) {	
-			return new ResponseEntity<>(reducedEmi, HttpStatusCode.valueOf(200));
-		}else {
 			return new ResponseEntity<>(reducedEmi, HttpStatusCode.valueOf(204));
+		}else {
+			return new ResponseEntity<>(reducedEmi, HttpStatusCode.valueOf(200));
 		}
 	}
 }

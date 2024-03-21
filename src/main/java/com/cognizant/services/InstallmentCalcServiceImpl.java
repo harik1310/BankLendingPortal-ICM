@@ -48,11 +48,14 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 	@Override
 	public List<ReducedPaymentDTO> reducedInsallmentCalc(LoanCalcDTO loan) {
-		LoanAppMaster lm = new LoanAppMaster();
-		lm.setLoanAppId(loan.getLoanAppId());
+	Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
+		LoanAppMaster lm = optional.get();
+//		lm.setLoanAppId(loan.getLoanAppId());
+//		loanApplicationRepository.save(lm);
 		
+
 		List<LoanAppDetailMaster> loanApplist = installmentRepository.findAllByLoanAppId(loan.getLoanAppId());
-		
+
 		List<ReducedPaymentDTO> loanReport = new ArrayList<>();
 		if (!loanApplist.isEmpty()) {
 
@@ -62,8 +65,6 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 			}
 			return loanReport;
 		} else {
-
-			
 
 			double loanAmount = loan.getPAmount();
 
@@ -86,7 +87,7 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 			int month = 0;
 
-			while (loanTermMonths > 0) {
+			while (loanTermMonths >0 && remainingPrincipal >=0 ) {
 				loanTermMonths--;
 				// Calculate interest component for the month
 				double interestComponent = Math.round(remainingPrincipal * monthlyInterestRate);
@@ -96,8 +97,17 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 				// Update remaining principal
 				double principalAtBegin = remainingPrincipal;
+				
+				
 
 				remainingPrincipal = Math.round(remainingPrincipal - principalComponent);
+				double totalLoanAmt =+ emi;
+				
+				if(remainingPrincipal <=0 ) {
+					emi += Math.abs(remainingPrincipal);
+					remainingPrincipal += Math.abs(remainingPrincipal);
+				}
+				
 
 				LocalDate dueDateforCurrentMonth = (startDate.plusMonths(++month).withDayOfMonth(10));
 
@@ -106,50 +116,54 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				// Setting the values for the DTO and adding to the returning list
 				temp.setLoanAppId(lm);
 				temp.setMonth(month);
-
 				temp.setPOutStandingBeginOfMonth(principalAtBegin);
 				temp.setEmi(emi);
 				temp.setInterest(interestComponent);
 				temp.setPrincipalRepayment(principalComponent);
 				temp.setPOutStandingEndOfMonth(remainingPrincipal);
 				temp.setLastDateOfEmi(dueDateforCurrentMonth);
-
 				loanReport.add(temp);
 				LoanAppDetailMaster ladm = InstallmentMapper.toEntity(temp);
 				loanApplist.add(ladm);
 			}
-			installmentRepository.saveAll(loanApplist);
-		
-			return loanReport;
+				installmentRepository.saveAll(loanApplist);
+
+			return loanReport;	
 		}
 	}
 
 	public List<ReducedPaymentDTO> getLoanDetailList(LoanCalcDTO loan) {
 		List<ReducedPaymentDTO> list = new ArrayList<>();
 
-			if (loan.getMonthlyinterestRate() == 0) {
+		if (loan.getMonthlyinterestRate() == 0) {
+			double interest = loanApplicationRepository.findInterestRate(loan.getLoanAppId());
+			loan.setMonthlyinterestRate(interest);
+		}
+		
+		if (loan.getDueDate() == null) {
+			Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
+			if(optional.isPresent()) {
+				loan.setDueDate(optional.get().getApplicationDate());;
+			}
+		}
 
-				double interest = loanApplicationRepository.findInterestRate(loan.getLoanAppId());
-				loan.setMonthlyinterestRate(interest);
-			}
+		Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
 
-			Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
-			
-			LoanAppMaster lm=new LoanAppMaster();
-			if (value.isPresent()) {
-				
-				lm = value.get();
-			}
+		LoanAppMaster lm = new LoanAppMaster();
+		if (value.isPresent()) {
 
-			List<LoanAppDetailMaster> details = lm.getLoanAppDetails();
-			for (LoanAppDetailMaster ladm : details) {
-				ReducedPaymentDTO dto = InstallmentMapper.toDTO(ladm);
-				list.add(dto);
-			}
-			if (list.isEmpty()) {
-				
-				return reducedInsallmentCalc(loan);
-			}
+			lm = value.get();
+		}
+
+		List<LoanAppDetailMaster> details = lm.getLoanAppDetails();
+		for (LoanAppDetailMaster ladm : details) {
+			ReducedPaymentDTO dto = InstallmentMapper.toDTO(ladm);
+			list.add(dto);
+		}
+		if (list.isEmpty()) {
+
+			return reducedInsallmentCalc(loan);
+		}
 		return list;
 	}
 
