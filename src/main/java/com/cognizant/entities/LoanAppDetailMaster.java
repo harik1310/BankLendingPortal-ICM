@@ -3,9 +3,6 @@ package com.cognizant.entities;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +34,6 @@ public class LoanAppDetailMaster {
 	private int id;
 	
 	@ManyToOne
-//	@JsonIgnoreProperties(value = {"loanAppDetails", "handler","hibernateLazyInitializer"}, allowSetters = true)
 	@JoinColumn(referencedColumnName = "Loan_App_Id" ,name = "Loan_App_Id")
 	private LoanAppMaster loanAppId;
 	

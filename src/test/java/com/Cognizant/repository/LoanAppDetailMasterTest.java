@@ -72,6 +72,7 @@ class LoanAppDetailMasterTest {
 		
 		
 	}
+	
 	@Test
 	void findAll_Test() {
 		entityManager.persist(loanAppMaster);

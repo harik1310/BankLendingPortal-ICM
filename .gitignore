@@ -1,9 +1,13 @@
 HELP.md
 target/
+doc/
+.sonarlint/
+.metadata/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+C:\Users\2317172\OneDrive - Cognizant\Desktop\BankLendingPortal-ICM\doc
+C:\Users\2317172\OneDrive - Cognizant\Desktop\BankLendingPortal-ICM\.metadata
 ### STS ###
 .apt_generated
 .classpath
