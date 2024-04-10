@@ -19,15 +19,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NewLoanDTO {
 	
-	@NotBlank
+//	@NotBlank
 	private String loanId;
 	
-	@NotNull
+//	@NotNull
 	private TypeOfLoan typeOfLoan;
 	
 	@InterestValid(message = "Interest should be greater that 0.0 and less than 50.0")
 	private float interestRate;
 	
-	@ValidDate(message = "date should should be today's date" )
+//	@ValidDate(message = "date should should be today's date" )
 	private LocalDate dateOfCreation;
 }

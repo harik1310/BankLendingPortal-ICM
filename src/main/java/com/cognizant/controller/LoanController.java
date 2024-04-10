@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.cognizant.dto.NewLoanDTO;
 import com.cognizant.services.LoanMasterService;
 import jakarta.validation.Valid;
 
+@CrossOrigin("http://localhost:4200/")
 @RestController
 @Validated
 @RequestMapping("api/loan")
@@ -50,8 +52,10 @@ public class LoanController {
 		LoanDTO dto = null;
 		dto = service.getLoanDetailsById(loanId);
 		if (dto == null) {
+			System.out.println(dto);
 			return new ResponseEntity<>(dto, HttpStatusCode.valueOf(204));
 		}
+		System.out.println(dto);
 		return new ResponseEntity<>(dto, HttpStatusCode.valueOf(200));
 	}
 

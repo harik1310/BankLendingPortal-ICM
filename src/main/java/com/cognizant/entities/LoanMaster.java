@@ -10,8 +10,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,5 +52,12 @@ public class LoanMaster {
 	
 	@Column(name="Date_Of_Creation")
 	private LocalDate dateOfCreation;
+	
+	@PostPersist()
+	private void onCreate() {
+		String id[] = typeOfLoan.toString().split("_");
+		String temp = id[0].substring(0, 1)+id[1].substring(0, 1);
+		this.loanId = temp+loanId;
+	}
 		
 }

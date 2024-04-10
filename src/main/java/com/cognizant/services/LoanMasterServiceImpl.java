@@ -13,6 +13,7 @@ import com.cognizant.dto.LoanDTO;
 import com.cognizant.dto.NewLoanDTO;
 import com.cognizant.entities.LoanMaster;
 import com.cognizant.repository.LoanMasterRepository;
+import com.cognizant.utilities.LoanAppIdGenerator;
 import com.cognizant.utilities.TypeOfLoan;
 import com.cognizant.utilities.mapper.LoanDTOMapper;
 
@@ -28,6 +29,10 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 
 	@Override
 	public LoanDTO persistNewLoan(NewLoanDTO loan) {
+		String loanid=LoanAppIdGenerator.generateId(loan.getTypeOfLoan());
+		loan.setLoanId(loanid);
+		loan.setDateOfCreation(LocalDate.now());
+		System.out.println(loan.getDateOfCreation());
 		boolean loanTaken = checkIfInterestIsTaken(loan.getInterestRate());
 		if (loanTaken) {
 			float interest = getLatestInterestValue(loan.getTypeOfLoan());
