@@ -32,6 +32,7 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 	@Override
 	public LoanCalcDTO installmentCalc(LoanCalcDTO loan) {
+		System.out.println(loan.getPAmount());
 		double principalAmt = loan.getPAmount();
 		int loanTenure = loan.getLoanTenureMonths();
 
@@ -48,24 +49,25 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 	@Override
 	public List<ReducedPaymentDTO> reducedInsallmentCalc(LoanCalcDTO loan) {
+System.out.println("calling from redIns findby Id");
 	Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
 		LoanAppMaster lm = optional.get();
 //		lm.setLoanAppId(loan.getLoanAppId());
 //		loanApplicationRepository.save(lm);
 		
 
+		System.out.println("calling from redIns findAllby Id");
 		List<LoanAppDetailMaster> loanApplist = installmentRepository.findAllByLoanAppId(loan.getLoanAppId());
-
 		List<ReducedPaymentDTO> loanReport = new ArrayList<>();
 		if (!loanApplist.isEmpty()) {
-
+			System.out.println("loanAppList is not empty");
 			for (LoanAppDetailMaster lad : loanApplist) {
 				ReducedPaymentDTO dto = InstallmentMapper.toDTO(lad);
 				loanReport.add(dto);
 			}
 			return loanReport;
 		} else {
-
+			System.out.println("loanAppList is  empty");
 			double loanAmount = loan.getPAmount();
 
 			int loanTermMonths = loan.getLoanTenureMonths();
@@ -98,14 +100,17 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				// Update remaining principal
 				double principalAtBegin = remainingPrincipal;
 				
-				
-
 				remainingPrincipal = Math.round(remainingPrincipal - principalComponent);
 				double totalLoanAmt =+ emi;
 				
 				if(remainingPrincipal <=0 ) {
 					emi += Math.abs(remainingPrincipal);
 					remainingPrincipal += Math.abs(remainingPrincipal);
+				}
+				
+				if(loanTermMonths==0) {
+					principalComponent += remainingPrincipal;
+					remainingPrincipal -= remainingPrincipal;
 				}
 				
 
@@ -161,7 +166,8 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 			list.add(dto);
 		}
 		if (list.isEmpty()) {
-
+			System.out.println("calling reduced installment calc ");
+			
 			return reducedInsallmentCalc(loan);
 		}
 		return list;

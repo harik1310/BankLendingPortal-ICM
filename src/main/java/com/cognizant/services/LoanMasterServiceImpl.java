@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.cognizant.dto.LoanDTO;
 import com.cognizant.dto.NewLoanDTO;
+import com.cognizant.entities.LoanAppMaster;
 import com.cognizant.entities.LoanMaster;
+import com.cognizant.repository.LoanAppMasterRepository;
 import com.cognizant.repository.LoanMasterRepository;
 import com.cognizant.utilities.LoanAppIdGenerator;
 import com.cognizant.utilities.TypeOfLoan;
@@ -21,10 +23,13 @@ import com.cognizant.utilities.mapper.LoanDTOMapper;
 public class LoanMasterServiceImpl implements LoanMasterService {
 
 	private LoanMasterRepository loanMasterRepository;
+	private LoanAppMasterRepository loanApplicationRepository;
 
 	@Autowired
-	public LoanMasterServiceImpl(LoanMasterRepository loanMasterRepository) {
+	public LoanMasterServiceImpl(LoanMasterRepository loanMasterRepository,
+			 LoanAppMasterRepository loanApplicationRepository) {
 		this.loanMasterRepository = loanMasterRepository;
+		this.loanApplicationRepository = loanApplicationRepository;
 	}
 
 	@Override
@@ -38,7 +43,14 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 			float interest = getLatestInterestValue(loan.getTypeOfLoan());
 			loan.setInterestRate(interest + 0.01f);
 		}
+		System.out.println("saving loanMaster");
 		LoanMaster saved = loanMasterRepository.save(LoanDTOMapper.newLoanToLoanMaster(loan));
+		System.out.println("saved loanMaster");
+		LoanAppMaster lam = new LoanAppMaster();
+		lam.setLoanAppId(saved.getLoanId());
+		lam.setInterestRate(saved.getInterestRate());
+		lam.setApplicationDate(saved.getDateOfCreation());
+		loanApplicationRepository.save(lam);
 		return LoanDTOMapper.toLoanDTO(saved);
 	}
 

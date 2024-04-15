@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class LoanAppMaster {
 	@Column(name="Application_Date")
 	private LocalDate applicationDate; 
 	
+	@Transient
 	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId",
 			cascade = CascadeType.MERGE, fetch = FetchType.EAGER )
 	private List<LoanAppDetailMaster> loanAppDetails = new ArrayList<>();

@@ -22,3 +22,10 @@ create table Loan_App_Detail_Master (
         Interest_Rate float(24) unique,
         Type_Of_Loan varchar(255) check (type_of_loan in ('PERSONAL_LOANS','AUTO_LOANS','BUSINESS_LOANS','HOME_LOANS'))
     );
+    
+CREATE TABLE Users(
+user_name VARCHAR(40),
+password VARCHAR(40) NOT null,
+role VARCHAR(40) NOT null,
+is_Account_Locked BOOLEAN
+);

@@ -26,6 +26,9 @@
     ('HL127', '2024-03-05', 5.6, 'HOME_LOANS'),
     ('AL128', '2024-03-11', 5.9, 'AUTO_LOANS'),
     ('BL129', '2024-03-09', 5.4, 'BUSINESS_LOANS');  
-   			   
+   
+    
+INSERT INTO Users (user_name,password,role,is_Account_Locked) VALUES ('admin','admin','admin',false);
+INSERT INTO Users VALUES ('user','user','user',false);
  
  

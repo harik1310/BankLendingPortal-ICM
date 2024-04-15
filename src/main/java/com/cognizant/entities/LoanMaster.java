@@ -52,12 +52,5 @@ public class LoanMaster {
 	
 	@Column(name="Date_Of_Creation")
 	private LocalDate dateOfCreation;
-	
-	@PostPersist()
-	private void onCreate() {
-		String id[] = typeOfLoan.toString().split("_");
-		String temp = id[0].substring(0, 1)+id[1].substring(0, 1);
-		this.loanId = temp+loanId;
-	}
 		
 }

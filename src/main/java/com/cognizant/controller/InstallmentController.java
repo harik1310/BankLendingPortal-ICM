@@ -29,6 +29,7 @@ public class InstallmentController {
 
 	@PostMapping("emiCalc")
 	public ResponseEntity<LoanCalcDTO> emiCalculation(@RequestBody LoanCalcDTO loan) {
+		System.out.println(loan);
 		LoanCalcDTO emiDetails = null;
 			emiDetails = service.installmentCalc(loan);
 		if(emiDetails!=null) {	
