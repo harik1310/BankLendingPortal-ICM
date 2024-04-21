@@ -41,7 +41,6 @@ class LoanAppDetailMasterTest {
 				.loanAppDetails(list)
 				.build();
 		
-		entityManager.persist(loanAppMaster);
 		
 		
 		
@@ -66,6 +65,7 @@ class LoanAppDetailMasterTest {
 		list.add(loanDetails1);
 		list.add(loanDetails);
 		
+		entityManager.persist(loanAppMaster);
 		
 		
 
@@ -75,9 +75,9 @@ class LoanAppDetailMasterTest {
 	
 	@Test
 	void findAll_Test() {
+//		entityManager.persist(loanDetails);
+//		entityManager.persist(loanDetails1);
 		entityManager.persist(loanAppMaster);
-		entityManager.persist(loanDetails);
-		entityManager.persist(loanDetails1);
 		List<LoanAppDetailMaster> list = loanAppDetailMasterRepository.findAll();
 		assertEquals(2, list.size());
 	}

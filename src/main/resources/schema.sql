@@ -1,4 +1,4 @@
- create table Loan_App_Master (
+create table Loan_App_Master (
         Loan_App_Id varchar(255) not null  primary key,
         Application_Date date,
         Interest_Rate float(24) unique

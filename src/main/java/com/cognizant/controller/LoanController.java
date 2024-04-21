@@ -65,7 +65,7 @@ public class LoanController {
 		LoanDTO st = null;
 			st = service.persistNewLoan(newLoan);
 			if (st != null) {
-				return new ResponseEntity<>(HttpStatusCode.valueOf(201));
+				return new ResponseEntity<LoanDTO>(st,HttpStatusCode.valueOf(201));
 			}
 			return new ResponseEntity<>(HttpStatusCode.valueOf(500));
 	}

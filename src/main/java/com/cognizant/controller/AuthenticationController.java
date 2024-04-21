@@ -1,7 +1,7 @@
 package com.cognizant.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +24,9 @@ public class AuthenticationController {
 	public ResponseEntity<?> authenticate(@RequestBody UserRequest userRequest){
 		UserDTO userDTO=userService.authenticateUser(userRequest.getUserName(), userRequest.getPassword());
 		if(userDTO.getUserName()!=null) {
-			return new ResponseEntity<UserDTO>(userDTO,HttpStatus.ACCEPTED);
+			return new ResponseEntity<UserDTO>(userDTO,HttpStatusCode.valueOf(202));
 		}else {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(HttpStatusCode.valueOf(403));
 		}
 		
 	}

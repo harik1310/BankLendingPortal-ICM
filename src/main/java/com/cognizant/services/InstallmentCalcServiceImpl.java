@@ -12,6 +12,7 @@ import com.cognizant.dto.LoanCalcDTO;
 import com.cognizant.dto.ReducedPaymentDTO;
 import com.cognizant.entities.LoanAppDetailMaster;
 import com.cognizant.entities.LoanAppMaster;
+import com.cognizant.entities.LoanMaster;
 import com.cognizant.repository.LoanAppDetailMasterRepository;
 import com.cognizant.repository.LoanAppMasterRepository;
 import com.cognizant.utilities.mapper.InstallmentMapper;
@@ -49,12 +50,10 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 	@Override
 	public List<ReducedPaymentDTO> reducedInsallmentCalc(LoanCalcDTO loan) {
-System.out.println("calling from redIns findby Id");
-	Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
+		Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
 		LoanAppMaster lm = optional.get();
 //		lm.setLoanAppId(loan.getLoanAppId());
 //		loanApplicationRepository.save(lm);
-		
 
 		System.out.println("calling from redIns findAllby Id");
 		List<LoanAppDetailMaster> loanApplist = installmentRepository.findAllByLoanAppId(loan.getLoanAppId());
@@ -89,7 +88,7 @@ System.out.println("calling from redIns findby Id");
 
 			int month = 0;
 
-			while (loanTermMonths >0 && remainingPrincipal >=0 ) {
+			while (loanTermMonths > 0 && remainingPrincipal >= 0) {
 				loanTermMonths--;
 				// Calculate interest component for the month
 				double interestComponent = Math.round(remainingPrincipal * monthlyInterestRate);
@@ -99,20 +98,19 @@ System.out.println("calling from redIns findby Id");
 
 				// Update remaining principal
 				double principalAtBegin = remainingPrincipal;
-				
+
 				remainingPrincipal = Math.round(remainingPrincipal - principalComponent);
-				double totalLoanAmt =+ emi;
-				
-				if(remainingPrincipal <=0 ) {
+				double totalLoanAmt = +emi;
+
+				if (remainingPrincipal <= 0) {
 					emi += Math.abs(remainingPrincipal);
 					remainingPrincipal += Math.abs(remainingPrincipal);
 				}
-				
-				if(loanTermMonths==0) {
+
+				if (loanTermMonths == 0) {
 					principalComponent += remainingPrincipal;
 					remainingPrincipal -= remainingPrincipal;
 				}
-				
 
 				LocalDate dueDateforCurrentMonth = (startDate.plusMonths(++month).withDayOfMonth(10));
 
@@ -131,45 +129,56 @@ System.out.println("calling from redIns findby Id");
 				LoanAppDetailMaster ladm = InstallmentMapper.toEntity(temp);
 				loanApplist.add(ladm);
 			}
-				installmentRepository.saveAll(loanApplist);
+			installmentRepository.saveAll(loanApplist);
 
-			return loanReport;	
+			return loanReport;
 		}
 	}
 
 	public List<ReducedPaymentDTO> getLoanDetailList(LoanCalcDTO loan) {
 		List<ReducedPaymentDTO> list = new ArrayList<>();
 
-		if (loan.getMonthlyinterestRate() == 0) {
+		LoanAppMaster lam = null;
+		Optional<LoanAppMaster> optionalLoanApp = loanApplicationRepository.findById(loan.getLoanAppId());
+		if (optionalLoanApp.isPresent()) {
+			lam = optionalLoanApp.get();
+		}
+
+		if (loan.getMonthlyinterestRate() == 0 && lam.getInterestRate() == 0.0) {
 			double interest = loanApplicationRepository.findInterestRate(loan.getLoanAppId());
 			loan.setMonthlyinterestRate(interest);
 		}
-		
+
+		if (loan.getPAmount() == 0) {
+			double amount = 1200000;
+			loan.setPAmount(amount);
+		}
+
 		if (loan.getDueDate() == null) {
-			Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
-			if(optional.isPresent()) {
-				loan.setDueDate(optional.get().getApplicationDate());;
+
+			loan.setDueDate(lam.getApplicationDate());
+			;
+		}
+
+//		Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
+//
+//		LoanAppMaster lm = new LoanAppMaster();
+//		if (value.isPresent()) {
+//
+//			lm = value.get();
+//		}
+
+		List<LoanAppDetailMaster> details = lam.getLoanAppDetails();
+
+		if (details.isEmpty()) {
+			return reducedInsallmentCalc(loan);
+		} else {
+			for (LoanAppDetailMaster ladm : details) {
+				ReducedPaymentDTO dto = InstallmentMapper.toDTO(ladm);
+				list.add(dto);
 			}
 		}
-
-		Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
-
-		LoanAppMaster lm = new LoanAppMaster();
-		if (value.isPresent()) {
-
-			lm = value.get();
-		}
-
-		List<LoanAppDetailMaster> details = lm.getLoanAppDetails();
-		for (LoanAppDetailMaster ladm : details) {
-			ReducedPaymentDTO dto = InstallmentMapper.toDTO(ladm);
-			list.add(dto);
-		}
-		if (list.isEmpty()) {
-			System.out.println("calling reduced installment calc ");
-			
-			return reducedInsallmentCalc(loan);
-		}
+		
 		return list;
 	}
 

@@ -29,6 +29,6 @@
    
     
 INSERT INTO Users (user_name,password,role,is_Account_Locked) VALUES ('admin','admin','admin',false);
-INSERT INTO Users VALUES ('user','user','user',false);
+INSERT INTO Users (user_name,password,role,is_Account_Locked)   VALUES ('user','user','user',false);
  
  

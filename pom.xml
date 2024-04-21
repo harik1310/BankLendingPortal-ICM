@@ -103,12 +103,22 @@
 <profiles>
 	<profile>
   <id>coverage</id>
+
+
+<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin 
+<dependency>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.12</version>
+</dependency>
+-->
+
   <build>
    <plugins>
     <plugin>
       <groupId>org.jacoco</groupId>
      <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.7</version>
+      <version>0.8.12</version>
       <executions>
         <execution>
           <id>prepare-agent</id>
