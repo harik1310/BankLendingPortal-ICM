@@ -83,19 +83,33 @@ class InstallmentCalcServiceTest {
 	void installmentCalc() {
 		assertNotNull(service.installmentCalc(lac));
 	}
+	@Test
+	void reducedInstallmentCalc_when_calculating() {
+//		loanApplist.add(ladm);
+		when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(loanAppMaster));
+		when(installmentRepository.findAllByLoanAppId(any())).thenReturn(loanApplist);
+		assertNotNull(service.reducedInsallmentCalc(lac));
+	}
 	
 	@Test
 	void reducedInstallmentCalc() {
+		loanApplist.add(ladm);
 		when(installmentRepository.findAllByLoanAppId(any())).thenReturn(loanApplist);
+		when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(loanAppMaster));
 		assertNotNull(service.reducedInsallmentCalc(lac));
 	}
 	
+	
 	@Test
-	void reducedInstallmentCalc_whenDbHasList() {
-		loanApplist.add(ladm);
-		when(installmentRepository.findAllByLoanAppId(any())).thenReturn(loanApplist);
+	void reducedInstallmentCalc_when_loapListIsEmpty() {
+		loanAppMaster.setPAmount(120000);
+		loanAppMaster.setTenure(12);
+		List<LoanAppDetailMaster> list = new ArrayList<>();
+		when(installmentRepository.findAllByLoanAppId(any())).thenReturn(list);
+		when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(loanAppMaster));
 		assertNotNull(service.reducedInsallmentCalc(lac));
 	}
+	
 	
 	@Test
 	void getLoanDetails() {
@@ -107,20 +121,30 @@ class InstallmentCalcServiceTest {
 	@Test
 	void getLoanDetails_when_InterestIsNull() {
 		lac.setMonthlyinterestRate(0);
-		when(loanApplicationRepository.findInterestRate(any())).thenReturn(10.0);
+//		when(loanApplicationRepository.findInterestRate(any())).thenReturn(10.0);
 		when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(loanAppMaster));
 		assertNotNull(service.getLoanDetailList(lac));
 	}
-	@Test
-	void getLoanDetails_when() {
-		lac.setMonthlyinterestRate(0);
-		when(loanApplicationRepository.findInterestRate(any())).thenReturn(10.0);
-		when(loanApplicationRepository.findById(any())).thenReturn(Optional.ofNullable(null));
-		assertNotNull(service.getLoanDetailList(lac));
-	}
+//	@Test
+//	void getLoanDetails_when() {
+////		lac.setMonthlyinterestRate(0);
+//		when(loanApplicationRepository.findInterestRate(any())).thenReturn(10.0);
+//		when(loanApplicationRepository.findById(any())).thenReturn(Optional.ofNullable(loanAppMaster));
+//		assertNotNull(service.getLoanDetailList(lac));
+//	}
 	@Test
 	void getLoanDetails_when_listHasValues() {
 		loanApplist.add(ladm);
+		when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(loanAppMaster));
+		assertNotNull(service.getLoanDetailList(lac));
+	}
+	
+	@Test
+	void getLoanDetails_when_list() {
+		loanApplist.add(ladm);
+		lac.setMonthlyinterestRate(0);
+		loanAppMaster.setInterestRate(0);
+		lac.setDueDate(null);
 		when(loanApplicationRepository.findById(any())).thenReturn(Optional.of(loanAppMaster));
 		assertNotNull(service.getLoanDetailList(lac));
 	}

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -40,12 +41,9 @@ class LoanAppDetailMasterTest {
 				.loanAppId("AL1234")
 				.loanAppDetails(list)
 				.build();
-		
-		
-		
-		
+
 		 loanDetails = LoanAppDetailMaster.builder()
-												.id(2)//"BL1274"
+//												.id(2)//"BL1274"
 												.loanAppId(loanAppMaster)
 												.monthNo(1)
 												.installment(48251)
@@ -54,18 +52,22 @@ class LoanAppDetailMasterTest {
 												.build();
 		
 		 loanDetails1 = LoanAppDetailMaster.builder()
-												.id(3)//"BL1234"
+//												.id(3)//"BL1234"
 												.loanAppId(loanAppMaster)
 												.monthNo(1)
 												.installment(41612)
 												.interestRate(10.23f).pOutStandingBeginOfMon(4993416).pRepayment(6584).prOutStandingEndOfMon(4986776)
 												.lastDateofinstallPay(LocalDate.of(2024, 5, 10)).build();
 		
+//		loanDetails1 = mock(LoanAppDetailMaster.class);
 		
 		list.add(loanDetails1);
 		list.add(loanDetails);
 		
-		entityManager.persist(loanAppMaster);
+		
+		
+		
+
 		
 		
 
@@ -75,9 +77,9 @@ class LoanAppDetailMasterTest {
 	
 	@Test
 	void findAll_Test() {
-//		entityManager.persist(loanDetails);
-//		entityManager.persist(loanDetails1);
 		entityManager.persist(loanAppMaster);
+		entityManager.persist(loanDetails);
+		entityManager.persist(loanDetails1);
 		List<LoanAppDetailMaster> list = loanAppDetailMasterRepository.findAll();
 		assertEquals(2, list.size());
 	}
@@ -92,7 +94,7 @@ class LoanAppDetailMasterTest {
 				.lastDateofinstallPay(LocalDate.of(2024, 6, 10))
 				.build();
 		list.add(loanDetails2);
-		entityManager.persist(loanAppMaster);
+//		entityManager.persist(loanAppMaster);
 
 		LoanAppDetailMaster value = loanAppDetailMasterRepository.save(loanDetails2);
 		assertNotNull(value);

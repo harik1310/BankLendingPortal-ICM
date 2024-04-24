@@ -37,20 +37,19 @@ public class LoanMasterServiceImpl implements LoanMasterService {
 		String loanid=LoanAppIdGenerator.generateId(loan.getTypeOfLoan());
 		loan.setLoanId(loanid);
 		loan.setDateOfCreation(LocalDate.now());
-		System.out.println(loan.getDateOfCreation());
 		boolean loanTaken = checkIfInterestIsTaken(loan.getInterestRate());
 		if (loanTaken) {
 			float interest = getLatestInterestValue(loan.getTypeOfLoan());
 			loan.setInterestRate(interest + 0.01f);
 		}
-		System.out.println("saving loanMaster");
 		LoanMaster saved = loanMasterRepository.save(LoanDTOMapper.newLoanToLoanMaster(loan));
-		System.out.println("saved loanMaster");
 		LoanAppMaster lam = new LoanAppMaster();
 		lam.setLoanAppId(saved.getLoanId());
+		lam.setPAmount(loan.getPAmount());
+		lam.setTenure(loan.getTenure());
 		lam.setInterestRate(saved.getInterestRate());
 		lam.setApplicationDate(saved.getDateOfCreation());
-		loanApplicationRepository.save(lam);
+		this.loanApplicationRepository.save(lam);
 		return LoanDTOMapper.toLoanDTO(saved);
 	}
 

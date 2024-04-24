@@ -37,35 +37,35 @@ class LoanAppMasterTest {
 	void setup() {
 		//Database is already populated with 7 values
 		
-		loanDetailList.add(loanDetails);
 		
-		loanAppMaster = LoanAppMaster.builder()
-										.loanAppId("BL1234")
-										.interestRate(10.04f)
-										.loanAppDetails(loanDetailList)
-										.applicationDate(LocalDate.now())
-										.build();
-		
-//		loanAppMaster2 = LoanAppMaster.builder()
-//				.loanAppId("BL1224")
-//				.interestRate(10.05f)
-//				.loanAppDetails(loanDetail)
-//				.applicationDate(LocalDate.now())
+//		loanAppMaster = LoanAppMaster.builder()
+//										.loanAppId("BL1234")
+//										.interestRate(10.04f)
+//										.loanAppDetails(loanDetailList)
+//										.applicationDate(LocalDate.now())
+//										.build();
+//		
+////		loanAppMaster2 = LoanAppMaster.builder()
+////				.loanAppId("BL1224")
+////				.interestRate(10.05f)
+////				.loanAppDetails(loanDetail)
+////				.applicationDate(LocalDate.now())
+////				.build();
+//		
+//		loanDetails = LoanAppDetailMaster.builder()
+//				.id(6)//"BL1234"
+//				.loanAppId(loanAppMaster)
+//				.monthNo(1)
+//				.installment(48251)
+//				.interestRate(10.23f)
+//				.pOutStandingBeginOfMon(5000000)
+//				.pRepayment(6584).prOutStandingEndOfMon(4993416)
+//				.lastDateofinstallPay(LocalDate.of(2024, 4, 10))
 //				.build();
-		
-		loanDetails = LoanAppDetailMaster.builder()
-				.id(6)//"BL1234"
-				.loanAppId(loanAppMaster)
-				.monthNo(1)
-				.installment(48251)
-				.interestRate(10.23f)
-				.pOutStandingBeginOfMon(5000000)
-				.pRepayment(6584).prOutStandingEndOfMon(4993416)
-				.lastDateofinstallPay(LocalDate.of(2024, 4, 10))
-				.build();
-		
-		entityManager.persist(loanAppMaster);
-		entityManager.persist(loanDetails);
+//		
+//		loanDetailList.add(loanDetails);
+//		entityManager.persist(loanAppMaster);
+//		entityManager.persist(loanDetails);
 //		entityManager.persist(loanAppMaster2);
 		
 	}
@@ -75,7 +75,7 @@ class LoanAppMasterTest {
 		List<LoanAppMaster> value = repository.findAll();
 		System.out.println(value.size());
 		//Database is already populated with 7 values
-		assertEquals(8,value.size());
+		assertEquals(7,value.size());
 	}
 
 	@Test

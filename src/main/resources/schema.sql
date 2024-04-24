@@ -1,7 +1,9 @@
 create table Loan_App_Master (
         Loan_App_Id varchar(255) not null  primary key,
         Application_Date date,
-        Interest_Rate float(24) unique
+        Interest_Rate float(24) unique,
+        Principal_Amount integer,
+        Tenure integer
     );
 create table Loan_App_Detail_Master (
         Id integer not null primary key,

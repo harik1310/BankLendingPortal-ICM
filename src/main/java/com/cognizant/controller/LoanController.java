@@ -52,10 +52,8 @@ public class LoanController {
 		LoanDTO dto = null;
 		dto = service.getLoanDetailsById(loanId);
 		if (dto == null) {
-			System.out.println(dto);
-			return new ResponseEntity<>(dto, HttpStatusCode.valueOf(204));
+			return new ResponseEntity<>(HttpStatusCode.valueOf(400));
 		}
-		System.out.println(dto);
 		return new ResponseEntity<>(dto, HttpStatusCode.valueOf(200));
 	}
 
@@ -65,7 +63,7 @@ public class LoanController {
 		LoanDTO st = null;
 			st = service.persistNewLoan(newLoan);
 			if (st != null) {
-				return new ResponseEntity<LoanDTO>(st,HttpStatusCode.valueOf(201));
+				return new ResponseEntity<>(st,HttpStatusCode.valueOf(201));
 			}
 			return new ResponseEntity<>(HttpStatusCode.valueOf(500));
 	}

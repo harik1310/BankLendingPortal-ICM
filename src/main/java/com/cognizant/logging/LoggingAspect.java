@@ -23,15 +23,15 @@ public class LoggingAspect {
 	}
 	private static String placeHolder = "{} {}";
 
-//	@Before(" execution(* com.cognizant.*.*.*(..))")
-//	public void beforeAdvice(JoinPoint point) {
-//		log.info(placeHolder, level.INFO, point.getSignature().getName());
-//	}
+	@Before(" execution(* com.cognizant.*.*.*(..))")
+	public void beforeAdvice(JoinPoint point) {
+		log.info(placeHolder, level.INFO, point.getSignature().getName());
+	}
 
-//	@After(" execution(* com.cognizant.*.*.*(..))")
-//	public void afterAdvice(JoinPoint point) {
-//		log.info(placeHolder, level.INFO, point.getSignature().getName());
-//	}
+	@After(" execution(* com.cognizant.*.*.*(..))")
+	public void afterAdvice(JoinPoint point) {
+		log.info(placeHolder, level.INFO, point.getSignature().getName());
+	}
 
 	@AfterReturning(pointcut = "execution(* com.cognizant.*.*.*(..))", returning = "result")
 	public void afterReturning(JoinPoint point, Object result) {

@@ -12,7 +12,6 @@ import com.cognizant.dto.LoanCalcDTO;
 import com.cognizant.dto.ReducedPaymentDTO;
 import com.cognizant.entities.LoanAppDetailMaster;
 import com.cognizant.entities.LoanAppMaster;
-import com.cognizant.entities.LoanMaster;
 import com.cognizant.repository.LoanAppDetailMasterRepository;
 import com.cognizant.repository.LoanAppMasterRepository;
 import com.cognizant.utilities.mapper.InstallmentMapper;
@@ -33,7 +32,6 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 
 	@Override
 	public LoanCalcDTO installmentCalc(LoanCalcDTO loan) {
-		System.out.println(loan.getPAmount());
 		double principalAmt = loan.getPAmount();
 		int loanTenure = loan.getLoanTenureMonths();
 
@@ -52,28 +50,24 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 	public List<ReducedPaymentDTO> reducedInsallmentCalc(LoanCalcDTO loan) {
 		Optional<LoanAppMaster> optional = loanApplicationRepository.findById(loan.getLoanAppId());
 		LoanAppMaster lm = optional.get();
-//		lm.setLoanAppId(loan.getLoanAppId());
-//		loanApplicationRepository.save(lm);
 
-		System.out.println("calling from redIns findAllby Id");
 		List<LoanAppDetailMaster> loanApplist = installmentRepository.findAllByLoanAppId(loan.getLoanAppId());
 		List<ReducedPaymentDTO> loanReport = new ArrayList<>();
 		if (!loanApplist.isEmpty()) {
-			System.out.println("loanAppList is not empty");
 			for (LoanAppDetailMaster lad : loanApplist) {
 				ReducedPaymentDTO dto = InstallmentMapper.toDTO(lad);
 				loanReport.add(dto);
 			}
 			return loanReport;
 		} else {
-			System.out.println("loanAppList is  empty");
-			double loanAmount = loan.getPAmount();
 
-			int loanTermMonths = loan.getLoanTenureMonths();
+			double loanAmount = lm.getPAmount();
 
-			double annualInterestRate = loan.getMonthlyinterestRate();
+			int loanTermMonths = lm.getTenure();
 
-			LocalDate startDate = loan.getDueDate();
+			double annualInterestRate = lm.getInterestRate();
+
+			LocalDate startDate = lm.getApplicationDate();
 
 			// Calculate monthly interest rate
 			double monthlyInterestRate = (annualInterestRate / 100) / 12;
@@ -100,8 +94,6 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 				double principalAtBegin = remainingPrincipal;
 
 				remainingPrincipal = Math.round(remainingPrincipal - principalComponent);
-				double totalLoanAmt = +emi;
-
 				if (remainingPrincipal <= 0) {
 					emi += Math.abs(remainingPrincipal);
 					remainingPrincipal += Math.abs(remainingPrincipal);
@@ -149,24 +141,10 @@ public class InstallmentCalcServiceImpl implements InstallmentCalcService {
 			loan.setMonthlyinterestRate(interest);
 		}
 
-		if (loan.getPAmount() == 0) {
-			double amount = 1200000;
-			loan.setPAmount(amount);
-		}
-
 		if (loan.getDueDate() == null) {
 
 			loan.setDueDate(lam.getApplicationDate());
-			;
 		}
-
-//		Optional<LoanAppMaster> value = loanApplicationRepository.findById(loan.getLoanAppId());
-//
-//		LoanAppMaster lm = new LoanAppMaster();
-//		if (value.isPresent()) {
-//
-//			lm = value.get();
-//		}
 
 		List<LoanAppDetailMaster> details = lam.getLoanAppDetails();
 

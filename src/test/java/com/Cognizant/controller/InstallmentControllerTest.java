@@ -33,7 +33,9 @@ import com.cognizant.repository.LoanAppMasterRepository;
 import com.cognizant.services.InstallmentCalcService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(classes = { BankLendingPortalIcmApplication.class })
+import com.cognizant.*;
+
+@SpringBootTest(classes = { BankLendingPortalIcmApplicationTests.class })
 class InstallmentControllerTest {
 	
 	private MockMvc mockMvc;

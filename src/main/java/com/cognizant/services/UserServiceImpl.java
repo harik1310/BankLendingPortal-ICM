@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
 				break;
 			}
 		}
-		System.out.println(userModel);
 		return userModel;
 	}
 

@@ -17,14 +17,19 @@ import com.cognizant.services.UserService;
 @RequestMapping("/authenticate")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
-	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	public AuthenticationController(UserService userService) {
+		super();
+		this.userService = userService;
+	}
+
 	@PostMapping("users")
-	public ResponseEntity<?> authenticate(@RequestBody UserRequest userRequest){
+	public ResponseEntity<UserDTO> authenticate(@RequestBody UserRequest userRequest){
 		UserDTO userDTO=userService.authenticateUser(userRequest.getUserName(), userRequest.getPassword());
 		if(userDTO.getUserName()!=null) {
-			return new ResponseEntity<UserDTO>(userDTO,HttpStatusCode.valueOf(202));
+			return new ResponseEntity<>(userDTO,HttpStatusCode.valueOf(202));
 		}else {
 			return new ResponseEntity<>(HttpStatusCode.valueOf(403));
 		}

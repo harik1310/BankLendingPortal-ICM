@@ -29,6 +29,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.client.RestTemplate;
 
 import com.cognizant.BankLendingPortalIcmApplication;
+import com.cognizant.BankLendingPortalIcmApplicationTests;
 import com.cognizant.dto.LoanDTO;
 import com.cognizant.dto.NewLoanDTO;
 import com.cognizant.repository.LoanAppMasterRepository;
@@ -37,7 +38,7 @@ import com.cognizant.services.LoanMasterService;
 import com.cognizant.utilities.TypeOfLoan;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest(classes = { BankLendingPortalIcmApplication.class })
+@SpringBootTest(classes = { BankLendingPortalIcmApplicationTests.class })
 class LoanControllerTest {
 
 	private MockMvc mockMvc;
@@ -54,12 +55,6 @@ class LoanControllerTest {
 
 	@InjectMocks
 	private LoanController controller;
-
-	@Autowired
-	private LocalValidatorFactoryBean validator;
-	private MockRestServiceServer mockServer;
-	private RestTemplate template;
-	private ObjectMapper mapper = new ObjectMapper();
 	
 	LoanDTO loanMaster, loanMaster1;
 	
@@ -67,8 +62,6 @@ class LoanControllerTest {
 	void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-		template = new RestTemplate();
-		mockServer = MockRestServiceServer.createServer(template);
 	}
 
 	@Test

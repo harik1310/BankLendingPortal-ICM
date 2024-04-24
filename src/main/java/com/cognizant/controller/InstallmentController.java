@@ -14,7 +14,7 @@ import com.cognizant.dto.LoanCalcDTO;
 import com.cognizant.dto.ReducedPaymentDTO;
 import com.cognizant.services.InstallmentCalcService;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/loan")
 public class InstallmentController {
@@ -29,7 +29,6 @@ public class InstallmentController {
 
 	@PostMapping("emiCalc")
 	public ResponseEntity<LoanCalcDTO> emiCalculation(@RequestBody LoanCalcDTO loan) {
-		System.out.println(loan);
 		LoanCalcDTO emiDetails = null;
 			emiDetails = service.installmentCalc(loan);
 		if(emiDetails!=null) {	
@@ -40,7 +39,7 @@ public class InstallmentController {
 	}
 	
 		
-	//this works perfectly
+
 	@PostMapping("reducedPaymentCalc")
 	public ResponseEntity<List<ReducedPaymentDTO>> getLoanDetailList(@RequestBody LoanCalcDTO loan){
 		List<ReducedPaymentDTO> reducedEmi = service.getLoanDetailList(loan);

@@ -5,6 +5,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.stereotype.Component;
 @Component
 public class LoanAppIdGenerator {
+//	private LoanAppIdGenerator() {
+//		super();
+//	}
+
 	private static final AtomicInteger counter = new AtomicInteger(1);
  
     public static String generateId(TypeOfLoan type) {

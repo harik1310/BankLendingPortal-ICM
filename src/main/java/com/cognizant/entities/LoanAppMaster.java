@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -36,9 +35,16 @@ public class LoanAppMaster {
 	@Column(name="Application_Date")
 	private LocalDate applicationDate; 
 	
+	@Column(name="Principal_Amount")
+	private int pAmount;
+	
+	@Column(name="Tenure")
+	private int tenure;
+	
+	
 	@Transient
 	@OneToMany ( targetEntity = LoanAppDetailMaster.class, mappedBy = "loanAppId",
-			cascade = CascadeType.MERGE, fetch = FetchType.EAGER )
+			cascade = CascadeType.MERGE )
 	private List<LoanAppDetailMaster> loanAppDetails = new ArrayList<>();
 	
 }
